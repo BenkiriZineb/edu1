@@ -1,0 +1,109 @@
+/* Conteneur principal avec centrage vertical et horizontal */
+.reference-page {
+  min-height: calc(100vh - 60px); /* Ajuste 60px selon la hauteur de ta navbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  background: #fcf9f9;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Contenu centré */
+.container {
+  text-align: center;
+  max-width: 800px;
+}
+
+/* Titre principal */
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+/* Sous-titre */
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+  max-width: 800px;
+}
+
+/* Cartes de références */
+.reference-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+
+/* Style de chaque carte */
+.reference-card {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.reference-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-content {
+  max-width: 65%;
+}
+
+.card-content h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.card-link {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.card-link span {
+  margin-left: 5px;
+}
+
+.card-image {
+  width: 100px;
+  height: auto;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+  .reference-card {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .card-content {
+    max-width: 100%;
+  }
+
+  .card-image {
+    margin-top: 15px;
+    width: 80px;
+    align-self: center;
+  }
+}

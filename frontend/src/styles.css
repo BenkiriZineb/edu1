@@ -1,0 +1,47 @@
+/* Styles globaux */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+/* Reset des styles par défaut */
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Styles pour les icônes */
+.pi {
+  font-size: 1rem;
+}
+
+.fas, .far, .fab {
+  font-size: 1rem;
+}
+
+/* Amélioration de l'accessibilité */
+:focus {
+  outline: 2px solid #2a9d8f;
+  outline-offset: 2px;
+}
+
+/* Styles pour les transitions */
+* {
+  transition: all 0.3s ease;
+}

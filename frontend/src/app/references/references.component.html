@@ -1,0 +1,20 @@
+<div class="reference-page">
+  <div class="container">
+    <h1>Centre d’aide</h1>
+
+    <p class="subtitle">
+      Informations de référence sur le fonctionnement du site, réponses aux questions fréquentes et informations sur les mises à jour du site Home School.
+    </p>
+
+    <div class="reference-cards">
+      <div class="reference-card" *ngFor="let ref of references">
+        <div class="card-content">
+          <h2>{{ ref.title }}</h2>
+          <p>{{ ref.description }}</p>
+          <a href="#" class="card-link">{{ ref.link }} <span>➜</span></a>
+        </div>
+        <img [src]="ref.image" alt="{{ ref.title }}" class="card-image" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<!-- Menu latéral -->
+<div class="sidebar">
+  <nav class="sidebar-nav">
+    <ul class="nav-menu">
+      <li class="nav-item" (click)="navigateToCalendar()">
+        <div class="nav-link"><i class="fas fa-calendar"></i> <span>Calendrier</span></div>
+      </li>
+      <li class="nav-item" (click)="navigateToMateriel()">
+        <div class="nav-link"><i class="fas fa-box"></i> <span>Matériels</span></div>
+      </li>
+      <li class="nav-item" (click)="navigateToCourses()">
+        <div class="nav-link"><i class="fas fa-book"></i> <span>Cours</span></div>
+      </li>
+      <li class="nav-item" (click)="navigateToStudents()">
+        <div class="nav-link"><i class="fas fa-users"></i> <span>Étudiants</span></div>
+      </li>
+      <li class="nav-item" (click)="navigateToStats()">
+        <div class="nav-link"><i class="fas fa-chart-bar"></i> <span>Statistiques</span></div>
+      </li>
+      <li class="nav-item" (click)="navigateToSettings()">
+        <div class="nav-link"><i class="fas fa-cog"></i> <span>Paramètres</span></div>
+      </li>
+      <li class="nav-item" (click)="navigateToReferences()">
+        <div class="nav-link"><i class="fas fa-users"></i> <span>References</span></div>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Barre de navigation principale -->
+<nav class="navbar">
+  <div class="menu-toggle" (click)="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="toggle-menu" *ngIf="isMenuVisible">
+    <ul>
+      <li (click)="navigateToCalendar()"><i class="fas fa-calendar"></i> Calendrier</li>
+      <li (click)="navigateToMateriel()"><i class="fas fa-box"></i> Matériels</li>
+      <li (click)="navigateToSettings()"><i class="fas fa-cog"></i> Paramètres</li>
+      <li (click)="navigateToReferences()"> <i class="fas fas-cog"></i> Referen es</li>
+      <li><i class="fas fa-sign-out-alt"></i> Sortie</li>
+    </ul>
+  </div>
+
+  <ul class="nav-links">
+    <li><a (click)="navigateToEcole()">École ▾</a></li>
+    <li (click)="navigateToCourses()">Cours et services ▾</li>
+    <li (click)="navigateToUtiles()">Utile ▾</li>
+    <li (click)="navigateToAPropos()">À propos de nous ▾</li>
+  </ul>
+
+  <div class="contact-actions">
+    <button class="login-btn" (click)="navigateToProfile()">
+      <i class="fas fa-user"></i> Profile
+    </button>
+  </div>
+</nav>
+
+<!-- Contenu principal affiché selon les routes -->
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>

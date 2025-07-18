@@ -1,0 +1,43 @@
+/* src/app/materiel/materiels.component.css */
+
+.materiel-container {
+  margin-left: 260px; /* espace pour compenser la sidebar (ajuste si ta sidebar est plus grande/petite) */
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.materiel-card {
+  background-color: #fff3e0;
+  border: 1px solid #ffcc80;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.materiel-card:hover {
+  transform: scale(1.02);
+}
+
+h3 {
+  margin-bottom: 0.5rem;
+  color: #ff9800;
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0;
+  color: #333;
+}
+.lien {
+  color: darkcyan;
+  text-decoration: none; /* optionnel : enlever le soulignement */
+  font-weight: bold; /* optionnel : texte en gras */
+  cursor: pointer; /* montre que c'est cliquable */
+}
+
+.lien:hover {
+  text-decoration: underline; /* optionnel : effet au survol */
+}

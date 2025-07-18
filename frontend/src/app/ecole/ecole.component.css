@@ -1,0 +1,103 @@
+/* Wrapper général pour éloigner du bord gauche (navbar) */
+.conteneur-ecole {
+  padding-left: 100px;
+  padding-right: 30px;
+}
+
+/* Grid des classes : 2 lignes de 6 colonnes */
+.grille-classes {
+  display: grid;
+  grid-template-columns: repeat(6, 100px);
+  gap: 15px;
+  justify-content: center; /* aligne à gauche, mais décalé avec padding */
+  margin-bottom: 30px;
+}
+
+/* Case individuelle d'une classe */
+.classe-box {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+/* Cartes spéciales */
+.cartes-speciales {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.carte-special {
+  background-color: #e0eaff;
+  padding: 15px;
+  border-radius: 10px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Infos école */
+.infos-ecole {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.info-box {
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 2em;
+  text-align: center;
+  width: 40px;
+}
+
+.texte h5 {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.texte p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* Responsive : moins de padding sur petits écrans */
+@media (max-width: 768px) {
+  .conteneur-ecole {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .grille-classes {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+
+  .classe-box {
+    height: 80px;
+  }
+
+  .cartes-speciales {
+    flex-direction: column;
+    align-items: center;
+  }
+}

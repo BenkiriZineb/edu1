@@ -1,0 +1,43 @@
+/* profile.component.css */
+
+.profile-form {
+  margin-left: 260px; /* décalage à droite pour laisser de l’espace à la sidebar */
+  padding: 2rem;
+  max-width: 800px;
+  margin-top: 2rem;
+}
+
+.card1 {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-profil {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.form-group {
+  flex: 1 1 calc(50% - 1rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  flex: 1 1 100%;
+}
+
+.form-control {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}

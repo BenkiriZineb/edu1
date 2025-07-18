@@ -1,0 +1,30 @@
+<div class="conteneur-ecole">
+
+  <div class="grille-classes">
+    <div *ngFor="let niveau of niveaux" class="classe-box">
+      <div class="label">Classe {{ niveau.numero }}</div>
+    </div>
+  </div>
+
+  <div class="cartes-speciales">
+    <div class="carte-special">
+      <h4>Processus d'apprentissage</h4>
+      <p>L’écosystème complet du processus éducatif de la leçon Internet</p>
+    </div>
+    <div class="carte-special">
+      <h4>Les succès des étudiants</h4>
+      <p>Résultats de nos diplômés au GIA</p>
+    </div>
+  </div>
+
+  <div class="infos-ecole">
+    <div class="info-box" *ngFor="let info of infos">
+      <div class="icon">{{ info.icon }}</div>
+      <div class="texte">
+        <h5>{{ info.title }}</h5>
+        <p>{{ info.desc }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

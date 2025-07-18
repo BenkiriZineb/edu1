@@ -1,0 +1,18 @@
+<div class="utile-page">
+  <h1 class="page-title">Ressources utiles</h1>
+
+  <div class="utile-grid">
+    <div class="card double" *ngFor="let section of sections.slice(0, 2)">
+      <h2 class="card-title">{{ section.title }}</h2>
+      <ul class="card-list">
+        <li *ngFor="let item of section.items">{{ item }}</li>
+      </ul>
+    </div>
+
+    <div class="card" *ngFor="let section of sections.slice(2)">
+      <h3 class="card-title">{{ section.title }}</h3>
+      <p class="card-desc">{{ section.description }}</p>
+      <span *ngIf="section.external" class="external-icon">↗️</span>
+    </div>
+  </div>
+</div>

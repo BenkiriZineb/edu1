@@ -1,0 +1,84 @@
+.subjects-page {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.subjects-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.subjects-header h2 {
+  font-size: 2rem;
+  color: #2a9d8f;
+  font-weight: 700;
+}
+
+.niveau {
+  color: #e65100;
+  font-weight: 800;
+}
+
+.subjects-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.subject-btn {
+  background: linear-gradient(135deg, #ff9800, #e65100);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.subject-btn:hover {
+  background: linear-gradient(135deg, #e65100, #ff9800);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(230, 81, 0, 0.18);
+}
+
+.matieres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.matiere-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+  transition: box-shadow 0.2s;
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.matiere-card:hover {
+  box-shadow: 0 4px 16px rgba(44,62,80,0.16);
+}
+
+.matiere-card a {
+  text-decoration: none;
+  color: #2a3b8f;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.matiere-titre {
+  padding: 1rem 0;
+}

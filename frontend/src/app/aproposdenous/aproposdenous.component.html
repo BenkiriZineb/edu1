@@ -1,0 +1,12 @@
+<div class="apropos-container">
+  <h1 class="page-title"></h1>
+  <div class="card-container">
+    <div class="card" *ngFor="let item of infos">
+      <img [src]="item.image" alt="{{ item.title }}" class="card-image">
+      <div class="card-content">
+        <h2>{{ item.title }}</h2>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
