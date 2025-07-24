@@ -1,0 +1,54 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Connexion</h2>
+      <p>Plateforme Éducative</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label>Nom d'utilisateur</label>
+        <input type="text" [(ngModel)]="username" name="username" required placeholder="Entrez votre nom d'utilisateur">
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input type="password" [(ngModel)]="password" name="password" required placeholder="Entrez votre mot de passe">
+      </div>
+
+      <div class="form-group">
+        <label>Rôle</label>
+        <select [(ngModel)]="role" name="role" required>
+          <option value="">Sélectionnez un rôle</option>
+          <option value="eleve">Élève</option>
+          <option value="enseignant">Enseignant</option>
+          <option value="parent">Parent</option>
+        </select>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-login">Se connecter</button>
+    </form>
+
+    <div class="demo-section">
+      <h4>Connexion rapide (Démo)</h4>
+      <div class="demo-buttons">
+        <button class="btn-demo eleve" (click)="loginEleve()">
+          <span class="icon">👨‍🎓</span>
+          Élève
+        </button>
+        <button class="btn-demo enseignant" (click)="loginEnseignant()">
+          <span class="icon">👨‍🏫</span>
+          Enseignant
+        </button>
+        <button class="btn-demo parent" (click)="loginParent()">
+          <span class="icon">👨‍👩‍👧</span>
+          Parent
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

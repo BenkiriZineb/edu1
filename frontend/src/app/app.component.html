@@ -1,3 +1,4 @@
+<!-- Suppression de <app-header> en haut -->
 <!-- Menu latéral -->
 <div class="sidebar">
   <nav class="sidebar-nav">
@@ -50,10 +51,8 @@
     <li (click)="navigateToAPropos()">À propos de nous ▾</li>
   </ul>
 
-  <div class="contact-actions">
-    <button class="login-btn" (click)="navigateToProfile()">
-      <i class="fas fa-user"></i> Profile
-    </button>
+  <div style="margin-left:auto;display:flex;align-items:center;">
+    <app-header></app-header>
   </div>
 </nav>
 

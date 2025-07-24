@@ -1,1 +1,7 @@
-<p>header works!</p>
+<div class="profile-menu" (mouseenter)="showMenu = true" (mouseleave)="showMenu = false">
+  <button class="profile-btn">Profil</button>
+  <div class="dropdown-menu" *ngIf="showMenu">
+    <a (click)="goToProfile()">S'inscrire</a>
+    <a (click)="goToLogin()">Se connecter</a>
+  </div>
+</div>

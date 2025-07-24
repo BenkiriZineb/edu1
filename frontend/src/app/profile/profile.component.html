@@ -3,25 +3,36 @@
     Utilisateur
   </h2>
   <div class="card1">
-    <form class="form-profil">
-      <div class="form-group"><label>Nom de famille</label><input type="text" class="form-control" /></div>
-      <div class="form-group"><label>Nom</label><input type="text" class="form-control" /></div>
-      <div class="form-group"><label>Deuxième nom de famille</label><input type="text" class="form-control" /></div>
-      <div class="form-group"><label>Date de naissance</label><input type="date" class="form-control" /></div>
+    <form class="form-profil" (ngSubmit)="onSubmit()">
+      <div class="form-group"><label>Nom de famille</label><input type="text" class="form-control" [(ngModel)]="lastName" name="lastName" required /></div>
+      <div class="form-group"><label>Nom</label><input type="text" class="form-control" [(ngModel)]="firstName" name="firstName" required /></div>
+      <div class="form-group"><label>Deuxième nom de famille</label><input type="text" class="form-control" [(ngModel)]="secondLastName" name="secondLastName" /></div>
+      <div class="form-group"><label>Date de naissance</label><input type="date" class="form-control" [(ngModel)]="birthDate" name="birthDate" required /></div>
       <div class="form-group full-width"><label>Sexe</label>
         <div class="radio-group">
-          <label><input type="radio" name="sexe" value="male" /> Mâle</label>
-          <label><input type="radio" name="sexe" value="female" /> Femelle</label>
+          <label><input type="radio" name="sexe" value="male" [(ngModel)]="gender" required /> Mâle</label>
+          <label><input type="radio" name="sexe" value="female" [(ngModel)]="gender" required /> Femelle</label>
         </div>
       </div>
-      <div class="form-group"><label>Téléphone</label><input type="tel" class="form-control" /></div>
-      <div class="form-group"><label>Mail</label><input type="email" class="form-control" /></div>
-      <div class="form-group"><label>Citoyenneté</label><select class="form-control"><option>Sélectionnez une valeur dans la liste</option></select></div>
-      <div class="form-group"><label>Pays de résidence</label><select class="form-control"><option>Sélectionnez une valeur dans la liste</option></select></div>
-      <div class="form-group"><label>Ville</label><select class="form-control"><option>Sélectionnez une valeur dans la liste</option></select></div>
-      <div class="form-group"><label>Fuseau horaire</label><select class="form-control"><option>Sélectionnez une valeur dans la liste</option></select></div>
-      <div class="form-group full-width"><label>École</label><input type="text" placeholder="Entrez le nom de l'école" class="form-control" /></div>
+      <div class="form-group"><label>Téléphone</label><input type="tel" class="form-control" [(ngModel)]="phone" name="phone" required /></div>
+      <div class="form-group"><label>Mail</label><input type="email" class="form-control" [(ngModel)]="email" name="email" required /></div>
+      <div class="form-group"><label>Citoyenneté</label><select class="form-control" [(ngModel)]="citizenship" name="citizenship" required><option value="">Sélectionnez une valeur dans la liste</option><option value="fr">Française</option><option value="autre">Autre</option></select></div>
+      <div class="form-group"><label>Pays de résidence</label><select class="form-control" [(ngModel)]="country" name="country" required><option value="">Sélectionnez une valeur dans la liste</option><option value="fr">France</option><option value="autre">Autre</option></select></div>
+      <div class="form-group"><label>Ville</label><input type="text" class="form-control" [(ngModel)]="city" name="city" required /></div>
+      <div class="form-group"><label>Fuseau horaire</label><select class="form-control" [(ngModel)]="timezone" name="timezone" required><option value="">Sélectionnez une valeur dans la liste</option><option value="CET">CET</option><option value="UTC">UTC</option></select></div>
+      <div class="form-group full-width"><label>École</label><input type="text" placeholder="Entrez le nom de l'école" class="form-control" [(ngModel)]="school" name="school" required /></div>
+      <div class="form-group full-width"><label>Rôle</label>
+        <select class="form-control" [(ngModel)]="role" name="role" required>
+          <option value="">Sélectionnez un rôle</option>
+          <option value="eleve">Élève</option>
+          <option value="enseignant">Enseignant</option>
+          <option value="parent">Parent</option>
+        </select>
+      </div>
       <div class="form-group full-width" style="text-align: right;"><a href="#" style="color: #ff9800;">Changer le mot de passe</a></div>
+      <div class="form-group full-width" style="text-align: center; margin-top: 1.5rem;">
+        <button type="submit" class="btn-inscrire">S'inscrire</button>
+      </div>
     </form>
   </div>
 </div>

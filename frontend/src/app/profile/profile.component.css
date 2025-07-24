@@ -41,3 +41,21 @@
   display: flex;
   gap: 1rem;
 }
+
+.btn-inscrire {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 32px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-top: 10px;
+}
+.btn-inscrire:hover, .btn-inscrire:focus {
+  background: #1565c0;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+}

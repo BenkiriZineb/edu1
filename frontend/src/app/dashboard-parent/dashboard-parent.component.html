@@ -1,0 +1,197 @@
+<div class="dashboard-layout" *ngIf="parent">
+  <!-- Sidebar -->
+  <app-sidebar [userRole]="'parent'"></app-sidebar>
+  
+  <!-- Main Content -->
+  <div class="main-dashboard">
+    <!-- Header -->
+    <header class="dashboard-header">
+    <div class="user-info">
+      <div class="avatar">
+        <span>{{ parent.prenom.charAt(0) }}{{ parent.nom.charAt(0) }}</span>
+      </div>
+      <div class="user-details">
+        <h2>Bonjour {{ parent.prenom }} !</h2>
+        <p>Parent - {{ enfants.length }} enfant(s)</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-notification" (click)="marquerNotificationCommeLue(1)">
+        <span class="notification-badge" *ngIf="hasNotificationsNonLues">
+          {{ notificationsNonLues }}
+        </span>
+        🔔
+      </button>
+      <button class="btn-logout" (click)="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- Sélection d'enfant -->
+  <section class="enfants-section">
+    <h3>Mes Enfants</h3>
+    <div class="enfants-grid">
+      <div class="enfant-card" 
+           *ngFor="let enfant of enfants" 
+           [class.selected]="selectedEnfant?.id === enfant.id"
+           (click)="selectEnfant(enfant)">
+        <div class="enfant-avatar">
+          <span>{{ enfant.prenom.charAt(0) }}{{ enfant.nom.charAt(0) }}</span>
+        </div>
+        <div class="enfant-info">
+          <h4>{{ enfant.prenom }} {{ enfant.nom }}</h4>
+          <p>{{ enfant.niveau }} - {{ enfant.classe }}</p>
+          <div class="moyenne-enfant">
+            Moyenne: <span [style.color]="getCouleurNote(getMoyenneEnfant(enfant.id))">
+              {{ getMoyenneEnfant(enfant.id) }}/20
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Détails de l'enfant sélectionné -->
+  <div class="enfant-details" *ngIf="selectedEnfant">
+    <h3>Détails de {{ selectedEnfant.prenom }}</h3>
+    
+    <!-- Statistiques de l'enfant -->
+    <section class="stats-enfant-section">
+      <div class="stat-card main-stat">
+        <h4>Moyenne Générale</h4>
+        <div class="stat-value" [style.color]="getCouleurNote(getMoyenneEnfant(selectedEnfant.id))">
+          {{ getMoyenneEnfant(selectedEnfant.id) }}/20
+        </div>
+        <p>{{ notesEnfantSelectionne.length }} notes</p>
+      </div>
+      <div class="stat-card">
+        <h4>Matières</h4>
+        <div class="stat-value">{{ matieresEnfantSelectionne.length }}</div>
+        <p>en cours</p>
+      </div>
+      <div class="stat-card">
+        <h4>Cours</h4>
+        <div class="stat-value">{{ coursEnfantSelectionne.length }}</div>
+        <p>disponibles</p>
+      </div>
+      <div class="stat-card">
+        <h4>Quiz</h4>
+        <div class="stat-value">{{ (quizEnfants[selectedEnfant.id] || []).length }}</div>
+        <p>à faire</p>
+      </div>
+    </section>
+
+    <!-- Progression par matière -->
+    <section class="progression-section">
+      <h4>Progression par Matière</h4>
+      <div class="progression-grid">
+        <div class="progression-card" 
+             *ngFor="let prog of getProgressionEnfant(selectedEnfant.id)"
+             [style.border-left-color]="prog.couleur">
+          <div class="progression-header">
+            <h5>{{ prog.matiere }}</h5>
+            <span class="moyenne" [style.color]="getCouleurNote(prog.moyenne)">
+              {{ prog.moyenne }}/20
+            </span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" 
+                 [style.width]="(prog.moyenne / 20) * 100 + '%'"
+                 [style.background-color]="prog.couleur"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes récentes -->
+    <section class="notes-section">
+      <h4>Notes Récentes</h4>
+      <div class="notes-list">
+        <div class="note-card" *ngFor="let note of notesEnfantSelectionne.slice(0, 5)">
+          <div class="note-header">
+            <span class="matiere">{{ note.matiere }}</span>
+            <span class="note-value" [style.color]="getCouleurNote((note.note/note.maxNote)*20)">
+              {{ note.note }}/{{ note.maxNote }}
+            </span>
+          </div>
+          <p class="commentaire" *ngIf="note.commentaire">{{ note.commentaire }}</p>
+          <span class="date">{{ note.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cours récents -->
+    <section class="cours-section">
+      <h4>Cours Récents</h4>
+      <div class="cours-list">
+        <div class="cours-card" *ngFor="let cours of coursEnfantSelectionne.slice(0, 3)">
+          <div class="cours-header">
+            <h5>{{ cours.titre }}</h5>
+            <span class="matiere-tag">{{ cours.matiere }}</span>
+          </div>
+          <p>{{ cours.description }}</p>
+          <span class="date">{{ cours.dateCreation | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Activités récentes -->
+  <section class="activites-section">
+    <h3>Activités Récentes</h3>
+    <div class="activites-list">
+      <div class="activite-card" *ngFor="let activite of getActivitesRecentes()">
+        <div class="activite-icon" [class.note]="activite.type === 'note'" [class.cours]="activite.type === 'cours'">
+          {{ activite.type === 'note' ? '📝' : '📚' }}
+        </div>
+        <div class="activite-content">
+          <div class="activite-header">
+            <span class="enfant-name">{{ activite.enfant.prenom }} {{ activite.enfant.nom }}</span>
+            <span class="date">{{ activite.date | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <p>{{ activite.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Messages des professeurs -->
+  <section class="messages-section">
+    <h3>Messages des Professeurs</h3>
+    <div class="messages-list">
+      <div class="message-card" *ngFor="let message of getMessagesProfesseurs()" 
+           [class.unread]="!message.lu">
+        <div class="message-header">
+          <span class="professeur">{{ message.expediteur }}</span>
+          <span class="date">{{ message.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <h4>{{ message.sujet }}</h4>
+        <p>{{ message.contenu }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notifications -->
+  <section class="notifications-section">
+    <h3>Notifications</h3>
+    <div class="notifications-list">
+      <div class="notification-card" *ngFor="let notification of notifications" 
+           [class.unread]="!notification.lu">
+        <div class="notification-icon" [class]="notification.type">
+          {{ notification.type === 'success' ? '✅' : 
+             notification.type === 'warning' ? '⚠️' : 
+             notification.type === 'error' ? '❌' : 'ℹ️' }}
+        </div>
+        <div class="notification-content">
+          <h4>{{ notification.titre }}</h4>
+          <p>{{ notification.message }}</p>
+          <span class="date">{{ notification.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<div class="loading" *ngIf="!parent">
+  Chargement...
+</div> 

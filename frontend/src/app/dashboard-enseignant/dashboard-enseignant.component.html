@@ -1,0 +1,296 @@
+<div class="dashboard-layout" *ngIf="enseignant">
+  <!-- Sidebar -->
+  <app-sidebar [userRole]="'enseignant'"></app-sidebar>
+  
+  <!-- Main Content -->
+  <div class="main-dashboard">
+    <!-- Header -->
+    <header class="dashboard-header">
+    <div class="user-info">
+      <div class="avatar">
+        <span>{{ enseignant.prenom.charAt(0) }}{{ enseignant.nom.charAt(0) }}</span>
+      </div>
+      <div class="user-details">
+        <h2>Bonjour {{ enseignant.prenom }} !</h2>
+        <p>Enseignant - {{ enseignant.matieres.join(', ') }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-notification" (click)="marquerNotificationCommeLue(1)">
+        <span class="notification-badge" *ngIf="hasNotificationsNonLues">
+          {{ notificationsNonLues }}
+        </span>
+        🔔
+      </button>
+      <button class="btn-logout" (click)="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- Statistiques principales -->
+  <section class="stats-section">
+    <div class="stat-card main-stat">
+      <h3>Classes</h3>
+      <div class="stat-value">{{ classes.length }}</div>
+      <p>en charge</p>
+    </div>
+    <div class="stat-card">
+      <h3>Élèves</h3>
+      <div class="stat-value">{{ getNombreEleves() }}</div>
+      <p>total</p>
+    </div>
+    <div class="stat-card">
+      <h3>Cours</h3>
+      <div class="stat-value">{{ cours.length }}</div>
+      <p>créés</p>
+    </div>
+    <div class="stat-card">
+      <h3>Quiz</h3>
+      <div class="stat-value">{{ quiz.length }}</div>
+      <p>disponibles</p>
+    </div>
+  </section>
+
+  <!-- Actions rapides -->
+  <section class="actions-section">
+    <h3>Actions Rapides</h3>
+    <div class="actions-grid">
+      <button class="action-btn" (click)="showCoursForm = true">
+        <span class="icon">📚</span>
+        <span>Ajouter un cours</span>
+      </button>
+      <button class="action-btn" (click)="showQuizForm = true">
+        <span class="icon">❓</span>
+        <span>Créer un quiz</span>
+      </button>
+      <button class="action-btn" (click)="showNoteForm = true">
+        <span class="icon">📝</span>
+        <span>Ajouter une note</span>
+      </button>
+      <button class="action-btn">
+        <span class="icon">📧</span>
+        <span>Envoyer un message</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Formulaires modaux -->
+  
+  <!-- Formulaire nouveau cours -->
+  <div class="modal" *ngIf="showCoursForm" (click)="showCoursForm = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouveau Cours</h3>
+        <button class="close-btn" (click)="showCoursForm = false">×</button>
+      </div>
+      <form (ngSubmit)="ajouterCours()" class="form">
+        <div class="form-group">
+          <label>Titre du cours</label>
+          <input type="text" [(ngModel)]="nouveauCours.titre" name="titre" required>
+        </div>
+        <div class="form-group">
+          <label>Matière</label>
+          <select [(ngModel)]="nouveauCours.matiere" name="matiere" required>
+            <option value="">Sélectionner une matière</option>
+            <option *ngFor="let matiere of enseignant.matieres" [value]="matiere">
+              {{ matiere }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Niveau</label>
+          <select [(ngModel)]="nouveauCours.niveau" name="niveau" required>
+            <option value="">Sélectionner un niveau</option>
+            <option value="6ème">6ème</option>
+            <option value="5ème">5ème</option>
+            <option value="4ème">4ème</option>
+            <option value="3ème">3ème</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="nouveauCours.description" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Contenu</label>
+          <textarea [(ngModel)]="nouveauCours.contenu" name="contenu" rows="5"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="showCoursForm = false">Annuler</button>
+          <button type="submit" class="btn-primary">Créer le cours</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Formulaire nouveau quiz -->
+  <div class="modal" *ngIf="showQuizForm" (click)="showQuizForm = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouveau Quiz</h3>
+        <button class="close-btn" (click)="showQuizForm = false">×</button>
+      </div>
+      <form (ngSubmit)="ajouterQuiz()" class="form">
+        <div class="form-group">
+          <label>Titre du quiz</label>
+          <input type="text" [(ngModel)]="nouveauQuiz.titre" name="titre" required>
+        </div>
+        <div class="form-group">
+          <label>Matière</label>
+          <select [(ngModel)]="nouveauQuiz.matiere" name="matiere" required>
+            <option value="">Sélectionner une matière</option>
+            <option *ngFor="let matiere of enseignant.matieres" [value]="matiere">
+              {{ matiere }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Durée (minutes)</label>
+          <input type="number" [(ngModel)]="nouveauQuiz.duree" name="duree" min="5" max="120" value="30">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="showQuizForm = false">Annuler</button>
+          <button type="submit" class="btn-primary">Créer le quiz</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Formulaire nouvelle note -->
+  <div class="modal" *ngIf="showNoteForm" (click)="showNoteForm = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Nouvelle Note</h3>
+        <button class="close-btn" (click)="showNoteForm = false">×</button>
+      </div>
+      <form (ngSubmit)="ajouterNote()" class="form">
+        <div class="form-group">
+          <label>Élève</label>
+          <select [(ngModel)]="nouvelleNote.eleveId" name="eleveId" required>
+            <option value="">Sélectionner un élève</option>
+            <option *ngFor="let eleve of eleves" [value]="eleve.id">
+              {{ eleve.prenom }} {{ eleve.nom }} - {{ eleve.classe }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Matière</label>
+          <select [(ngModel)]="nouvelleNote.matiere" name="matiere" required>
+            <option value="">Sélectionner une matière</option>
+            <option *ngFor="let matiere of enseignant.matieres" [value]="matiere">
+              {{ matiere }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Note</label>
+          <input type="number" [(ngModel)]="nouvelleNote.note" name="note" min="0" max="20" step="0.5" required>
+        </div>
+        <div class="form-group">
+          <label>Note maximale</label>
+          <input type="number" [(ngModel)]="nouvelleNote.maxNote" name="maxNote" min="1" value="20" required>
+        </div>
+        <div class="form-group">
+          <label>Commentaire</label>
+          <textarea [(ngModel)]="nouvelleNote.commentaire" name="commentaire" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="showNoteForm = false">Annuler</button>
+          <button type="submit" class="btn-primary">Ajouter la note</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="main-content">
+    <!-- Classes et élèves -->
+    <section class="classes-section">
+      <h3>Mes Classes</h3>
+      <div class="classes-grid">
+        <div class="classe-card" *ngFor="let classe of classes">
+          <h4>{{ classe }}</h4>
+          <div class="eleves-count">
+            {{ getElevesCountByClasse(classe) }} élèves
+          </div>
+          <div class="eleves-list">
+            <div class="eleve-item" *ngFor="let eleve of getElevesByClasse(classe)">
+              {{ eleve.prenom }} {{ eleve.nom }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cours récents -->
+    <section class="cours-section">
+      <h3>Cours Récents</h3>
+      <div class="cours-list">
+        <div class="cours-card" *ngFor="let cours of getCoursRecents()">
+          <div class="cours-header">
+            <h4>{{ cours.titre }}</h4>
+            <span class="matiere-tag">{{ cours.matiere }}</span>
+          </div>
+          <p>{{ cours.description }}</p>
+          <div class="cours-footer">
+            <span class="date">{{ cours.dateCreation | date:'dd/MM/yyyy' }}</span>
+            <div class="cours-actions">
+              <button class="btn-secondary">Modifier</button>
+              <button class="btn-danger" (click)="supprimerCours(cours.id)">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes récentes -->
+    <section class="notes-section">
+      <h3>Notes Récentes</h3>
+      <div class="notes-list">
+        <div class="note-card" *ngFor="let note of getNotesRecentes()">
+          <div class="note-header">
+            <span class="eleve">{{ getEleveName(note.eleveId) }}</span>
+            <span class="note-value">{{ note.note }}/{{ note.maxNote }}</span>
+          </div>
+          <div class="note-details">
+            <span class="matiere">{{ note.matiere }}</span>
+            <span class="date">{{ note.date | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <p class="commentaire" *ngIf="note.commentaire">{{ note.commentaire }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistiques par matière -->
+    <section class="stats-matiere-section">
+      <h3>Moyennes par Matière</h3>
+      <div class="stats-matiere-grid">
+        <div class="stat-matiere-card" *ngFor="let matiere of enseignant.matieres">
+          <h4>{{ matiere }}</h4>
+          <div class="moyenne">{{ getMoyenneClasse(matiere) }}/20</div>
+          <div class="notes-count">{{ getNotesCountByMatiere(matiere) }} notes</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Messages -->
+    <section class="messages-section">
+      <h3>Messages</h3>
+      <div class="messages-list">
+        <div class="message-card" *ngFor="let message of messages" 
+             [class.unread]="!message.lu">
+          <div class="message-header">
+            <span class="destinataire">{{ message.destinataire }}</span>
+            <span class="date">{{ message.date | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <h4>{{ message.sujet }}</h4>
+          <p>{{ message.contenu }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="!enseignant">
+  Chargement...
+</div> 
