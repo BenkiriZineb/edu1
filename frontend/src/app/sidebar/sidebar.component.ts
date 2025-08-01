@@ -66,6 +66,11 @@ export class SidebarComponent {
             label: 'Mon profil',
             icon: '👤',
             route: '/dashboard-eleve/profile'
+          },
+          {
+            label: 'Abonnements',
+            icon: '💳',
+            route: '/subscription'
           }
         ];
         break;
@@ -126,6 +131,11 @@ export class SidebarComponent {
             label: 'Mon profil',
             icon: '👤',
             route: '/dashboard-enseignant/profile'
+          },
+          {
+            label: 'Abonnements',
+            icon: '💳',
+            route: '/subscription'
           }
         ];
         break;
@@ -177,6 +187,11 @@ export class SidebarComponent {
             label: 'Mon profil',
             icon: '👤',
             route: '/dashboard-parent/profile'
+          },
+          {
+            label: 'Abonnements',
+            icon: '💳',
+            route: '/subscription'
           }
         ];
         break;

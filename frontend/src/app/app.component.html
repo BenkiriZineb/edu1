@@ -9,12 +9,6 @@
       <li class="nav-item" (click)="navigateToMateriel()">
         <div class="nav-link"><i class="fas fa-box"></i> <span>Matériels</span></div>
       </li>
-      <li class="nav-item" (click)="navigateToCourses()">
-        <div class="nav-link"><i class="fas fa-book"></i> <span>Cours</span></div>
-      </li>
-      <li class="nav-item" (click)="navigateToStudents()">
-        <div class="nav-link"><i class="fas fa-users"></i> <span>Étudiants</span></div>
-      </li>
       <li class="nav-item" (click)="navigateToStats()">
         <div class="nav-link"><i class="fas fa-chart-bar"></i> <span>Statistiques</span></div>
       </li>
@@ -34,21 +28,33 @@
     <span></span><span></span><span></span>
   </div>
 
+  <!-- Logo EduMaroc -->
+  <div class="navbar-logo">
+    <a (click)="navigateToHome()" class="logo-link">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">EduMaroc</span>
+    </a>
+  </div>
+
   <div class="toggle-menu" *ngIf="isMenuVisible">
     <ul>
-      <li (click)="navigateToCalendar()"><i class="fas fa-calendar"></i> Calendrier</li>
-      <li (click)="navigateToMateriel()"><i class="fas fa-box"></i> Matériels</li>
-      <li (click)="navigateToSettings()"><i class="fas fa-cog"></i> Paramètres</li>
-      <li (click)="navigateToReferences()"> <i class="fas fas-cog"></i> Referen es</li>
-      <li><i class="fas fa-sign-out-alt"></i> Sortie</li>
+      <li><a (click)="navigateToHome()"><i class="fas fa-home"></i> Accueil</a></li>
+      <li><a (click)="navigateToCalendar()"><i class="fas fa-calendar"></i> Calendrier</a></li>
+      <li><a (click)="navigateToMateriel()"><i class="fas fa-box"></i> Matériels</a></li>
+      <li><a (click)="navigateToSettings()"><i class="fas fa-cog"></i> Paramètres</a></li>
+      <li><a (click)="navigateToReferences()"><i class="fas fa-users"></i> Références</a></li>
+      <li><a (click)="navigateToSubscription()"><i class="fas fa-crown"></i> Abonnements</a></li>
+      <li><a><i class="fas fa-sign-out-alt"></i> Sortie</a></li>
     </ul>
   </div>
 
   <ul class="nav-links">
+    <li><a (click)="navigateToHome()">Accueil</a></li>
     <li><a (click)="navigateToEcole()">École ▾</a></li>
-    <li (click)="navigateToCourses()">Cours et services ▾</li>
-    <li (click)="navigateToUtiles()">Utile ▾</li>
-    <li (click)="navigateToAPropos()">À propos de nous ▾</li>
+    <li><a (click)="navigateToCalendar()">Calendrier</a></li>
+    <li><a (click)="navigateToUtiles()">Utile ▾</a></li>
+    <li><a (click)="navigateToAPropos()">À propos de nous ▾</a></li>
+    <li><a (click)="navigateToSubscription()">Abonnements</a></li>
   </ul>
 
   <div style="margin-left:auto;display:flex;align-items:center;">

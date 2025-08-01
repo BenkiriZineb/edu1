@@ -1,103 +1,440 @@
-/* Wrapper général pour éloigner du bord gauche (navbar) */
+/* ecole.component.css */
+
 .conteneur-ecole {
-  padding-left: 100px;
-  padding-right: 30px;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
 }
 
-/* Grid des classes : 2 lignes de 6 colonnes */
+/* Header */
+.header-ecole {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.header-ecole h2 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.header-ecole p {
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Grille des classes */
 .grille-classes {
   display: grid;
-  grid-template-columns: repeat(6, 100px);
-  gap: 15px;
-  justify-content: center; /* aligne à gauche, mais décalé avec padding */
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
-/* Case individuelle d'une classe */
 .classe-box {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1.2em;
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
   text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.classe-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.classe-box:hover::before {
+  transform: scaleX(1);
+}
+
+.classe-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #ff9800;
+}
+
+.classe-box.active {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-color: #ff9800;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.3);
+}
+
+.classe-box.active::before {
+  transform: scaleX(1);
+}
+
+/* Style spécial pour le préscolaire */
+.classe-box:first-child {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  border-color: #4caf50;
+}
+
+.classe-box:first-child::before {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+}
+
+.classe-box:first-child:hover {
+  border-color: #4caf50;
+  background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%);
+}
+
+.classe-box:first-child.active {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  border-color: #4caf50;
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+}
+
+.classe-box .label {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+/* Style spécial pour le label préscolaire */
+.classe-box:first-child .label {
+  color: #2e7d32;
+}
+
+.niveau-info {
+  margin-top: 1rem;
+}
+
+.niveau-text {
+  background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Style spécial pour le niveau préscolaire */
+.classe-box:first-child .niveau-text {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+}
+
+/* Détails de la classe */
+.classe-details {
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.details-header {
+  background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Style spécial pour le header préscolaire */
+.classe-details:has(.details-header h3:contains('Préscolaire')) .details-header {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+}
+
+.details-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.details-content {
+  padding: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #ff9800;
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.info-card h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.info-card p {
+  color: #7f8c8d;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Section matières */
+.matieres-section {
+  margin-bottom: 2rem;
+}
+
+.matieres-section h4 {
+  color: #2c3e50;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.matieres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.matiere-item {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.matiere-item:hover {
+  background: #fff3e0;
+  border-color: #ffb74d;
+  transform: translateX(5px);
+}
+
+.matiere-icon {
+  font-size: 1.5rem;
+}
+
+.matiere-name {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Section actions */
+.actions-section {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-inscription, .btn-details {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.btn-inscription {
+  background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+}
+
+.btn-inscription:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+}
+
+.btn-details {
+  background: #f8f9fa;
+  color: #2c3e50;
+  border: 2px solid #e9ecef;
+}
+
+.btn-details:hover {
+  background: #e9ecef;
+  border-color: #ff9800;
+  transform: translateY(-2px);
 }
 
 /* Cartes spéciales */
 .cartes-speciales {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
 
 .carte-special {
-  background-color: #e0eaff;
-  padding: 15px;
-  border-radius: 10px;
-  width: 250px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 4px solid #ff9800;
+}
+
+.carte-special:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.carte-special h4 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.carte-special p {
+  color: #7f8c8d;
+  margin: 0;
+  line-height: 1.6;
 }
 
 /* Infos école */
 .infos-ecole {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .info-box {
-  background-color: #fafafa;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  width: 220px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
+  transition: all 0.3s ease;
 }
 
-.icon {
-  font-size: 2em;
-  text-align: center;
-  width: 40px;
+.info-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.texte h5 {
-  margin: 0 0 8px 0;
+.info-box .icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.info-box .texte h5 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
-.texte p {
+.info-box .texte p {
+  color: #7f8c8d;
   margin: 0;
-  font-size: 0.9em;
-  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
-/* Responsive : moins de padding sur petits écrans */
+/* Responsive */
 @media (max-width: 768px) {
   .conteneur-ecole {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 1rem;
   }
-
+  
+  .header-ecole {
+    padding: 1.5rem;
+  }
+  
+  .header-ecole h2 {
+    font-size: 2rem;
+  }
+  
   .grille-classes {
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
   }
-
+  
   .classe-box {
-    height: 80px;
+    padding: 1.5rem;
   }
-
-  .cartes-speciales {
+  
+  .details-content {
+    padding: 1.5rem;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions-section {
     flex-direction: column;
-    align-items: center;
+  }
+  
+  .btn-inscription, .btn-details {
+    width: 100%;
+    justify-content: center;
   }
 }

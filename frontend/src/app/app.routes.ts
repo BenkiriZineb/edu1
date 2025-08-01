@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardEleveComponent } from './dashboard-eleve/dashboard-eleve.component';
 import { DashboardEnseignantComponent } from './dashboard-enseignant/dashboard-enseignant.component';
 import { DashboardParentComponent } from './dashboard-parent/dashboard-parent.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 
 export const appRoutes: Routes = [
@@ -26,6 +27,7 @@ export const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+  { path: 'subscription', component: SubscriptionComponent },
 
   { path: 'dashboard-eleve', component: DashboardEleveComponent },
   { path: 'dashboard-eleve/cours', component: DashboardEleveComponent },
@@ -70,8 +72,8 @@ export const appRoutes: Routes = [
   { path: 'dashboard-parent/calendrier', component: DashboardParentComponent },
   { path: 'dashboard-parent/profile', component: DashboardParentComponent },
 
-  { path: 'calendrier/:annee', component: SubjectsComponent },
-  { path: 'calendrier/:annee/:matiere', component: CoursesComponent },
+  { path: 'calendrier/:level', component: SubjectsComponent },
+  { path: 'calendrier/:level/:matiere', component: CoursesComponent },
   { path: 'matieres/:niveau', component: SubjectsComponent },
   { path: 'utile', component: UtileComponent },
   { path: 'aproposdenous', component: AproposdenousComponent },

@@ -92,4 +92,27 @@ export class AuthService {
     const user = this.getCurrentUser();
     return user?.role === role;
   }
+
+  // Méthode pour vérifier si l'utilisateur a un abonnement actif
+  hasActiveSubscription(): boolean {
+    const user = this.getCurrentUser();
+    if (!user) return false;
+    
+    // Pour la démo, on considère que l'utilisateur 1 a un abonnement actif
+    return user.id === 1;
+  }
+
+  // Méthode pour obtenir le type d'abonnement de l'utilisateur
+  getUserSubscriptionType(): string {
+    const user = this.getCurrentUser();
+    if (!user) return 'gratuit';
+    
+    // Pour la démo, on retourne des valeurs simulées
+    switch (user.id) {
+      case 1: return 'premium';
+      case 2: return 'basique';
+      case 3: return 'famille';
+      default: return 'gratuit';
+    }
+  }
 } 

@@ -1,37 +1,167 @@
 <div class="profile-form" style="padding: 2rem; margin: auto;">
-  <h2 style="background-color: #ff9800; color: white; padding: 1rem; border-radius: 5px; width: 90%; box-sizing: border-box; margin: 0 auto 1rem auto; text-align: center;">
-    Utilisateur
+  <h2 style="background: linear-gradient(135deg, #ff9800 0%, #e65100 100%); color: white; padding: 1.5rem; border-radius: 10px; width: 90%; box-sizing: border-box; margin: 0 auto 2rem auto; text-align: center; box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);">
+    <i class="fas fa-user-plus" style="margin-right: 10px;"></i>
+    Inscription - Plateforme Éducative Marocaine
   </h2>
   <div class="card1">
     <form class="form-profil" (ngSubmit)="onSubmit()">
-      <div class="form-group"><label>Nom de famille</label><input type="text" class="form-control" [(ngModel)]="lastName" name="lastName" required /></div>
-      <div class="form-group"><label>Nom</label><input type="text" class="form-control" [(ngModel)]="firstName" name="firstName" required /></div>
-      <div class="form-group"><label>Deuxième nom de famille</label><input type="text" class="form-control" [(ngModel)]="secondLastName" name="secondLastName" /></div>
-      <div class="form-group"><label>Date de naissance</label><input type="date" class="form-control" [(ngModel)]="birthDate" name="birthDate" required /></div>
-      <div class="form-group full-width"><label>Sexe</label>
-        <div class="radio-group">
-          <label><input type="radio" name="sexe" value="male" [(ngModel)]="gender" required /> Mâle</label>
-          <label><input type="radio" name="sexe" value="female" [(ngModel)]="gender" required /> Femelle</label>
+      <!-- Informations personnelles -->
+      <div class="form-section">
+        <h3><i class="fas fa-user" style="margin-right: 8px;"></i>Informations personnelles</h3>
+        <div class="form-group"><label>Nom de famille</label><input type="text" class="form-control" [(ngModel)]="lastName" name="lastName" required placeholder="Ex: Alami" /></div>
+        <div class="form-group"><label>Prénom</label><input type="text" class="form-control" [(ngModel)]="firstName" name="firstName" required placeholder="Ex: Ahmed" /></div>
+        <div class="form-group"><label>Nom du père</label><input type="text" class="form-control" [(ngModel)]="fatherName" name="fatherName" required placeholder="Ex: Mohammed" /></div>
+        <div class="form-group"><label>Date de naissance</label><input type="date" class="form-control" [(ngModel)]="birthDate" name="birthDate" required /></div>
+        <div class="form-group full-width"><label>Sexe</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sexe" value="male" [(ngModel)]="gender" required /> Masculin</label>
+            <label><input type="radio" name="sexe" value="female" [(ngModel)]="gender" required /> Féminin</label>
+          </div>
+        </div>
+        <div class="form-group"><label>Lieu de naissance</label><input type="text" class="form-control" [(ngModel)]="birthPlace" name="birthPlace" required placeholder="Ex: Casablanca" /></div>
+        <div class="form-group"><label>Nationalité</label>
+          <select class="form-control" [(ngModel)]="nationality" name="nationality" required>
+            <option value="">Sélectionnez votre nationalité</option>
+            <option value="marocaine">Marocaine</option>
+            <option value="francaise">Française</option>
+            <option value="canadienne">Canadienne</option>
+            <option value="belge">Belge</option>
+            <option value="suisse">Suisse</option>
+            <option value="autre">Autre</option>
+          </select>
         </div>
       </div>
-      <div class="form-group"><label>Téléphone</label><input type="tel" class="form-control" [(ngModel)]="phone" name="phone" required /></div>
-      <div class="form-group"><label>Mail</label><input type="email" class="form-control" [(ngModel)]="email" name="email" required /></div>
-      <div class="form-group"><label>Citoyenneté</label><select class="form-control" [(ngModel)]="citizenship" name="citizenship" required><option value="">Sélectionnez une valeur dans la liste</option><option value="fr">Française</option><option value="autre">Autre</option></select></div>
-      <div class="form-group"><label>Pays de résidence</label><select class="form-control" [(ngModel)]="country" name="country" required><option value="">Sélectionnez une valeur dans la liste</option><option value="fr">France</option><option value="autre">Autre</option></select></div>
-      <div class="form-group"><label>Ville</label><input type="text" class="form-control" [(ngModel)]="city" name="city" required /></div>
-      <div class="form-group"><label>Fuseau horaire</label><select class="form-control" [(ngModel)]="timezone" name="timezone" required><option value="">Sélectionnez une valeur dans la liste</option><option value="CET">CET</option><option value="UTC">UTC</option></select></div>
-      <div class="form-group full-width"><label>École</label><input type="text" placeholder="Entrez le nom de l'école" class="form-control" [(ngModel)]="school" name="school" required /></div>
-      <div class="form-group full-width"><label>Rôle</label>
-        <select class="form-control" [(ngModel)]="role" name="role" required>
-          <option value="">Sélectionnez un rôle</option>
-          <option value="eleve">Élève</option>
-          <option value="enseignant">Enseignant</option>
-          <option value="parent">Parent</option>
-        </select>
+
+      <!-- Informations de contact -->
+      <div class="form-section">
+        <h3><i class="fas fa-phone" style="margin-right: 8px;"></i>Informations de contact</h3>
+        <div class="form-group"><label>Téléphone mobile</label><input type="tel" class="form-control" [(ngModel)]="phone" name="phone" required placeholder="Ex: 0612345678" /></div>
+        <div class="form-group"><label>Téléphone fixe</label><input type="tel" class="form-control" [(ngModel)]="phoneFixed" name="phoneFixed" placeholder="Ex: 0522123456" /></div>
+        <div class="form-group"><label>Adresse email</label><input type="email" class="form-control" [(ngModel)]="email" name="email" required placeholder="Ex: ahmed.alami@email.com" /></div>
+        <div class="form-group"><label>Adresse email parent (si élève)</label><input type="email" class="form-control" [(ngModel)]="parentEmail" name="parentEmail" placeholder="Ex: parent@email.com" /></div>
       </div>
-      <div class="form-group full-width" style="text-align: right;"><a href="#" style="color: #ff9800;">Changer le mot de passe</a></div>
-      <div class="form-group full-width" style="text-align: center; margin-top: 1.5rem;">
-        <button type="submit" class="btn-inscrire">S'inscrire</button>
+
+      <!-- Adresse au Maroc -->
+      <div class="form-section">
+        <h3><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>Adresse au Maroc</h3>
+        <div class="form-group"><label>Région</label>
+          <select class="form-control" [(ngModel)]="region" name="region" required>
+            <option value="">Sélectionnez votre région</option>
+            <option value="casablanca-settat">Casablanca-Settat</option>
+            <option value="rabat-salé-kénitra">Rabat-Salé-Kénitra</option>
+            <option value="marrakech-safi">Marrakech-Safi</option>
+            <option value="fès-meknès">Fès-Meknès</option>
+            <option value="tanger-tétouan-al_hoceima">Tanger-Tétouan-Al Hoceima</option>
+            <option value="oriental">Oriental</option>
+            <option value="beni_mellal-khénifra">Béni Mellal-Khénifra</option>
+            <option value="daraa-tafilalet">Drâa-Tafilalet</option>
+            <option value="souss-massa">Souss-Massa</option>
+            <option value="guelmim-oued_noun">Guelmim-Oued Noun</option>
+            <option value="laâyoune-sakia_el_hamra">Laâyoune-Sakia El Hamra</option>
+            <option value="dakhla-oued_ed_dahab">Dakhla-Oued Ed-Dahab</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Ville</label><input type="text" class="form-control" [(ngModel)]="city" name="city" required placeholder="Ex: Casablanca" /></div>
+        <div class="form-group"><label>Quartier</label><input type="text" class="form-control" [(ngModel)]="district" name="district" required placeholder="Ex: Maarif" /></div>
+        <div class="form-group"><label>Code postal</label><input type="text" class="form-control" [(ngModel)]="postalCode" name="postalCode" required placeholder="Ex: 20000" /></div>
+        <div class="form-group full-width"><label>Adresse complète</label><input type="text" class="form-control" [(ngModel)]="fullAddress" name="fullAddress" required placeholder="Ex: 123 Rue Mohammed V, Appartement 4" /></div>
+      </div>
+
+      <!-- Informations académiques -->
+      <div class="form-section">
+        <h3><i class="fas fa-graduation-cap" style="margin-right: 8px;"></i>Informations académiques</h3>
+        <div class="form-group"><label>Niveau d'études</label>
+          <select class="form-control" [(ngModel)]="educationLevel" name="educationLevel" required>
+            <option value="">Sélectionnez votre niveau</option>
+            <option value="prescolaire">Préscolaire</option>
+            <option value="primaire">Primaire</option>
+            <option value="college">Collège</option>
+            <option value="lycee">Lycée</option>
+            <option value="superieur">Supérieur</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Année scolaire</label>
+          <select class="form-control" [(ngModel)]="schoolYear" name="schoolYear" required>
+            <option value="">Sélectionnez l'année</option>
+            <option value="2024-2025">2024-2025</option>
+            <option value="2023-2024">2023-2024</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Classe/Niveau</label>
+          <select class="form-control" [(ngModel)]="grade" name="grade" required>
+            <option value="">Sélectionnez votre classe</option>
+            <!-- Primaire -->
+            <option value="1ere-annee">1ère année primaire</option>
+            <option value="2eme-annee">2ème année primaire</option>
+            <option value="3eme-annee">3ème année primaire</option>
+            <option value="4eme-annee">4ème année primaire</option>
+            <option value="5eme-annee">5ème année primaire</option>
+            <option value="6eme-annee">6ème année primaire</option>
+            <!-- Collège -->
+            <option value="1ere-college">1ère année collège</option>
+            <option value="2eme-college">2ème année collège</option>
+            <option value="3eme-college">3ème année collège</option>
+            <!-- Lycée -->
+            <option value="tronc-commun">Tronc commun</option>
+            <option value="1ere-bac">1ère année bac</option>
+            <option value="2eme-bac">2ème année bac</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Filière (optionnel)</label>
+          <select class="form-control" [(ngModel)]="branch" name="branch">
+            <option value="">Sélectionnez la filière (si applicable)</option>
+            <option value="sciences-maths">Sciences Mathématiques</option>
+            <option value="sciences-physiques">Sciences Physiques</option>
+            <option value="sciences-vie">Sciences de la Vie et de la Terre</option>
+            <option value="economie-gestion">Économie et Gestion</option>
+            <option value="lettres">Lettres</option>
+            <option value="arts">Arts</option>
+            <option value="technique">Technique</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Rôle et mot de passe -->
+      <div class="form-section">
+        <h3><i class="fas fa-user-shield" style="margin-right: 8px;"></i>Compte utilisateur</h3>
+        <div class="form-group full-width"><label>Rôle</label>
+          <select class="form-control" [(ngModel)]="role" name="role" required>
+            <option value="">Sélectionnez votre rôle</option>
+            <option value="eleve">Élève</option>
+            <option value="enseignant">Enseignant</option>
+            <option value="parent">Parent</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Nom d'utilisateur</label><input type="text" class="form-control" [(ngModel)]="username" name="username" required placeholder="Ex: ahmed.alami" /></div>
+        <div class="form-group"><label>Mot de passe</label><input type="password" class="form-control" [(ngModel)]="password" name="password" required placeholder="Minimum 8 caractères" /></div>
+        <div class="form-group"><label>Confirmer le mot de passe</label><input type="password" class="form-control" [(ngModel)]="confirmPassword" name="confirmPassword" required placeholder="Répétez votre mot de passe" /></div>
+      </div>
+
+      <!-- Conditions et consentement -->
+      <div class="form-section">
+        <h3><i class="fas fa-file-contract" style="margin-right: 8px;"></i>Conditions et consentement</h3>
+        <div class="form-group full-width">
+          <div class="checkbox-group">
+            <label><input type="checkbox" [(ngModel)]="acceptTerms" name="acceptTerms" required /> J'accepte les <a href="#" style="color: #ff9800;">conditions d'utilisation</a></label>
+          </div>
+        </div>
+        <div class="form-group full-width">
+          <div class="checkbox-group">
+            <label><input type="checkbox" [(ngModel)]="acceptPrivacy" name="acceptPrivacy" required /> J'accepte la <a href="#" style="color: #ff9800;">politique de confidentialité</a></label>
+          </div>
+        </div>
+        <div class="form-group full-width">
+          <div class="checkbox-group">
+            <label><input type="checkbox" [(ngModel)]="acceptNewsletter" name="acceptNewsletter" /> J'accepte de recevoir des informations par email</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group full-width" style="text-align: center; margin-top: 2rem;">
+        <button type="submit" class="btn-inscrire">
+          <i class="fas fa-user-plus" style="margin-right: 8px;"></i>
+          Créer mon compte
+        </button>
       </div>
     </form>
   </div>

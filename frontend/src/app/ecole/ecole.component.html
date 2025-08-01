@@ -1,15 +1,85 @@
 <div class="conteneur-ecole">
+  <div class="header-ecole">
+    <h2>🏫 Notre École</h2>
+    <p>Découvrez nos classes et programmes éducatifs</p>
+  </div>
 
   <div class="grille-classes">
-    <div *ngFor="let niveau of niveaux" class="classe-box">
-      <div class="label">Classe {{ niveau.numero }}</div>
+    <div *ngFor="let niveau of niveaux" 
+         class="classe-box" 
+         [class.active]="selectedNiveau === niveau.numero"
+         (click)="selectNiveau(niveau.numero)">
+      <div class="label">
+        <span *ngIf="niveau.numero === 0">Préscolaire</span>
+        <span *ngIf="niveau.numero > 0">Classe {{ niveau.numero }}</span>
+      </div>
+      <div class="niveau-info">
+        <span class="niveau-text">{{ getNiveauText(niveau.numero) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Détails de la classe sélectionnée -->
+  <div class="classe-details" *ngIf="selectedNiveau !== null">
+    <div class="details-header">
+      <h3>{{ getNiveauNom(selectedNiveau) }}</h3>
+      <button class="close-btn" (click)="closeDetails()">×</button>
+    </div>
+    
+    <div class="details-content">
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="card-icon">📚</div>
+          <h4>Programme</h4>
+          <p>{{ getProgramme(selectedNiveau) }}</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-icon">👥</div>
+          <h4>Effectif</h4>
+          <p>{{ getEffectif(selectedNiveau) }} élèves par classe</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-icon">⏰</div>
+          <h4>Horaires</h4>
+          <p>{{ getHoraires(selectedNiveau) }}</p>
+        </div>
+        
+        <div class="info-card">
+          <div class="card-icon">💰</div>
+          <h4>Frais</h4>
+          <p>{{ getFrais(selectedNiveau) }} MAD/an</p>
+        </div>
+      </div>
+      
+      <div class="matieres-section">
+        <h4>{{ selectedNiveau === 0 ? 'Activités d\'éveil' : 'Matières enseignées' }}</h4>
+        <div class="matieres-grid">
+          <div *ngFor="let matiere of getMatieres(selectedNiveau)" class="matiere-item">
+            <span class="matiere-icon">{{ matiere.icon }}</span>
+            <span class="matiere-name">{{ matiere.nom }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="actions-section">
+        <button class="btn-inscription" (click)="inscrireClasse(selectedNiveau)">
+          <i class="fas fa-user-plus"></i>
+          S'inscrire à cette classe
+        </button>
+        <button class="btn-details" (click)="voirDetails(selectedNiveau)">
+          <i class="fas fa-info-circle"></i>
+          Plus de détails
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="cartes-speciales">
     <div class="carte-special">
       <h4>Processus d'apprentissage</h4>
-      <p>L’écosystème complet du processus éducatif de la leçon Internet</p>
+      <p>L'écosystème complet du processus éducatif de la leçon Internet</p>
     </div>
     <div class="carte-special">
       <h4>Les succès des étudiants</h4>

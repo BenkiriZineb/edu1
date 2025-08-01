@@ -29,16 +29,6 @@ export class AppComponent {
     this.router.navigate(['/materiels']);
   }
 
-  navigateToCourses() {
-    this.isMenuVisible = false;
-    this.router.navigate(['/calendrier/2025/math']);
-  }
-
-  navigateToStudents() {
-    this.isMenuVisible = false;
-    this.router.navigate(['/matieres/bac+1']);
-  }
-
   navigateToStats() {
     this.isMenuVisible = false;
     this.router.navigate(['/']);
@@ -59,7 +49,6 @@ export class AppComponent {
     this.router.navigate(['/utile']);
   }
 
-
   navigateToAPropos() {
     this.isMenuVisible = false;
     this.router.navigate(['/aproposdenous']);
@@ -69,8 +58,19 @@ export class AppComponent {
     this.isMenuVisible = false;
     this.router.navigate(['/profile']);
   }
+
   navigateToReferences() {
     this.isMenuVisible = false;
     this.router.navigate(['/references']);
+  }
+
+  navigateToHome() {
+    this.isMenuVisible = false;
+    this.router.navigate(['/']);
+  }
+
+  navigateToSubscription() {
+    this.isMenuVisible = false;
+    this.router.navigate(['/subscription']);
   }
 }
