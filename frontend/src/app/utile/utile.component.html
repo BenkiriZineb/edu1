@@ -1,18 +1,96 @@
 <div class="utile-page">
-  <h1 class="page-title">Ressources utiles</h1>
+  <!-- Section Hero -->
+  <div class="utile-hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Ressources Utiles</h1>
+      <p class="hero-subtitle">Trouvez rapidement les informations et outils dont vous avez besoin pour réussir</p>
+    </div>
+    
+    <!-- Section de recherche -->
+    <div class="search-section">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="Rechercher une ressource...">
+      </div>
+    </div>
+  </div>
 
-  <div class="utile-grid">
-    <div class="card double" *ngFor="let section of sections.slice(0, 2)">
-      <h2 class="card-title">{{ section.title }}</h2>
-      <ul class="card-list">
-        <li *ngFor="let item of section.items">{{ item }}</li>
-      </ul>
+  <!-- Contenu principal -->
+  <div class="utile-content">
+    <!-- Section Magazine -->
+    <div class="resource-section">
+      <div class="section-header">
+        <div class="section-icon">📚</div>
+        <h2>Magazine Éducatif</h2>
+        <p>Articles, conseils et actualités pour enrichir votre parcours éducatif</p>
+      </div>
+      <div class="magazine-grid">
+        <div class="magazine-card" *ngFor="let item of magazineItems">
+          <div class="card-icon">{{ item.icon }}</div>
+          <h3>{{ item.title }}</h3>
+          <div class="card-arrow">→</div>
+        </div>
+      </div>
     </div>
 
-    <div class="card" *ngFor="let section of sections.slice(2)">
-      <h3 class="card-title">{{ section.title }}</h3>
-      <p class="card-desc">{{ section.description }}</p>
-      <span *ngIf="section.external" class="external-icon">↗️</span>
+    <!-- Section FAQ -->
+    <div class="resource-section">
+      <div class="section-header">
+        <div class="section-icon">❓</div>
+        <h2>Questions Fréquentes</h2>
+        <p>Trouvez rapidement les réponses à vos questions</p>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-card" *ngFor="let item of faqItems">
+          <div class="faq-icon">{{ item.icon }}</div>
+          <h3>{{ item.title }}</h3>
+          <div class="faq-arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Ressources Supplémentaires -->
+    <div class="resource-section">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <h2>Ressources Supplémentaires</h2>
+        <p>Liens utiles et outils complémentaires pour votre apprentissage</p>
+      </div>
+      <div class="resources-grid">
+        <div class="resource-card" *ngFor="let item of additionalResources">
+          <div class="resource-icon">{{ item.icon }}</div>
+          <div class="resource-content">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </div>
+          <div class="resource-link">
+            <span class="external-icon">🔗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Actions Rapides -->
+    <div class="quick-actions">
+      <h2>Actions Rapides</h2>
+      <div class="actions-grid">
+        <button class="action-btn primary">
+          <span class="btn-icon">📖</span>
+          <span class="btn-text">Consulter le programme</span>
+        </button>
+        <button class="action-btn secondary">
+          <span class="btn-icon">📅</span>
+          <span class="btn-text">Voir le calendrier</span>
+        </button>
+        <button class="action-btn primary">
+          <span class="btn-icon">📞</span>
+          <span class="btn-text">Contacter le support</span>
+        </button>
+        <button class="action-btn secondary">
+          <span class="btn-icon">📧</span>
+          <span class="btn-text">Envoyer un message</span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

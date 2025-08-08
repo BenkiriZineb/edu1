@@ -9,52 +9,55 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./utile.component.css']
 })
 export class UtileComponent {
-  sections = [
+  magazineItems = [
+    { icon: '📚', title: "À propos de l'enseignement à domicile" },
+    { icon: '👤', title: "Expérience personnelle" },
+    { icon: '🚀', title: "École du futur" },
+    { icon: '❓', title: "Questions éducatives" },
+    { icon: '🧠', title: "Questions de psychologie" },
+    { icon: '👶', title: "Enfants d'âge préscolaire" },
+    { icon: '⏰', title: "Après les cours" },
+    { icon: '📝', title: "Préparation pour l'OGE et l'USE" }
+  ];
+
+  faqItems = [
+    { icon: '🏫', title: 'À propos de l\'école' },
+    { icon: '🎯', title: 'Début de la formation' },
+    { icon: '📋', title: 'Devoirs et évaluations' },
+    { icon: '💳', title: 'Formats de paiement et de formation' },
+    { icon: '📞', title: 'Comment contacter l\'administration' },
+    { icon: '👨‍👩‍👧‍👦', title: 'Questions qui concernent les parents' },
+    { icon: '📝', title: 'Inscription officielle' },
+    { icon: '📖', title: 'Processus d\'apprentissage' },
+    { icon: '✅', title: 'Contrôle et certification' },
+    { icon: '👨‍🏫', title: 'Interaction avec les enseignants' },
+    { icon: '🔧', title: 'Support technique' }
+  ];
+
+  additionalResources = [
     {
-      title: 'MAGAZINE',
-      items: [
-        "À propos de l’enseignement à domicile",
-        "Expérience personnelle",
-        "École du futur",
-        "Questions éducatives",
-        "Questions de psychologie",
-        "Enfants d’âge préscolaire",
-        "Après les cours",
-        "Préparation pour l’OGE et l’USE"
-      ]
-    },
-    {
-      title: 'Q & R',
-      items: [
-        'À propos de l’école ',
-        'Début de la formation',
-        'Devoirs et évaluations',
-        'Formats de paiement et de formation',
-        'Comment contacter l’administration',
-        'Questions qui concernent les parents',
-        'Inscription officielle',
-        'Processus d’apprentissage',
-        'Contrôle et certification',
-        'Interaction avec les enseignants',
-        'Support technique'
-      ]
-    },
-    {
+      icon: '🏠',
       title: 'École à la maison',
-      description: 'Série documentaire sur l’éducation familiale'
+      description: 'Série documentaire sur l\'éducation familiale',
+      external: false
     },
     {
+      icon: '📚',
       title: 'Bibliothèque de matériel M.I. Lazareva',
-      description: 'Articles, interviews et vidéos du fondateur de l’Internet Lesson',
+      description: 'Articles, interviews et vidéos du fondateur de l\'Internet Lesson',
       external: true
     },
     {
+      icon: '🧮',
       title: 'Mathématiques scolaires pour les parents',
-      description: 'Livre de M.I. Lazareva et Yu.V. Grebenyuk'
+      description: 'Livre de M.I. Lazareva et Yu.V. Grebenyuk',
+      external: false
     },
     {
+      icon: '📖',
       title: 'Glossaire',
-      description: 'Manuel de termes pour les étudiants'
+      description: 'Manuel de termes pour les étudiants',
+      external: false
     }
   ];
 }
