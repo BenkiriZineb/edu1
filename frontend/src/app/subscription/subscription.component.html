@@ -1,231 +1,349 @@
 <div class="subscription-container">
-  <!-- Header -->
   <div class="subscription-header">
-    <h1>Choisissez votre plan d'abonnement</h1>
-    <p>Accédez à tous nos cours et fonctionnalités selon vos besoins</p>
+    <h1>Inscription</h1>
+    <p>Rejoignez notre plateforme éducative</p>
   </div>
 
-  <!-- Abonnement actuel -->
-  <div class="current-subscription" *ngIf="abonnementActuel">
-    <div class="subscription-card current">
-      <div class="subscription-header">
-        <h3>Votre abonnement actuel</h3>
-        <span class="status-badge active">Actif</span>
-      </div>
-      <div class="subscription-details">
-        <h4>{{ abonnementActuel.plan.nom }}</h4>
-        <p>{{ abonnementActuel.plan.description }}</p>
-        <div class="subscription-info">
-          <div class="info-item">
-            <span class="label">Expire le :</span>
-            <span class="value">{{ abonnementActuel.dateFin | date:'dd/MM/yyyy' }}</span>
-          </div>
-          <div class="info-item">
-            <span class="label">Jours restants :</span>
-            <span class="value">{{ getJoursRestants() }} jours</span>
-          </div>
-          <div class="info-item">
-            <span class="label">Prix :</span>
-            <span class="value">{{ abonnementActuel.montantPaye }} MAD</span>
-          </div>
-        </div>
-        <div class="subscription-actions">
-          <button class="btn-renew" (click)="renouvelerAbonnement()" [disabled]="isLoading">
-            {{ isLoading ? 'Renouvellement...' : 'Renouveler' }}
-          </button>
-          <button class="btn-cancel" (click)="annulerAbonnement()">
-            Annuler
-          </button>
-        </div>
-      </div>
-    </div>
+  <!-- Onglets de sélection -->
+  <div class="subscription-tabs">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'student'"
+      (click)="setActiveTab('student')">
+      <span class="tab-icon">👨‍🎓</span>
+      Étudiant
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'teacher'"
+      (click)="setActiveTab('teacher')">
+      <span class="tab-icon">👨‍🏫</span>
+      Enseignant
+    </button>
   </div>
 
-  <!-- Plans disponibles -->
-  <div class="plans-section">
-    <h2>Plans disponibles</h2>
-    <div class="plans-grid">
-      <div class="plan-card" 
-           *ngFor="let plan of plans" 
-           [class.selected]="selectedPlan?.id === plan.id"
-           [class.popular]="plan.populaire"
-           (click)="selectPlan(plan)">
-        
-        <!-- Badge populaire -->
-        <div class="popular-badge" *ngIf="plan.populaire">
-          <span>🌟 Populaire</span>
-        </div>
-
-        <!-- Header du plan -->
-        <div class="plan-header">
-          <h3>{{ plan.nom }}</h3>
-          <div class="plan-price">
-            <span class="price">{{ getPrixFormate(plan.prix) }}</span>
-            <span class="period" *ngIf="plan.prix > 0">/mois</span>
-          </div>
-        </div>
-
-        <!-- Description -->
-        <p class="plan-description">{{ plan.description }}</p>
-
-        <!-- Fonctionnalités -->
-        <div class="plan-features">
-          <h4>Fonctionnalités incluses :</h4>
-          <ul>
-            <li *ngFor="let feature of plan.fonctionnalites">
-              <span class="feature-icon">✅</span>
-              {{ feature }}
-            </li>
-          </ul>
-        </div>
-
-        <!-- Limites -->
-        <div class="plan-limits" *ngIf="plan.limiteEleves || plan.limiteCours">
-          <div class="limit-item" *ngIf="plan.limiteEleves">
-            <span class="limit-label">Élèves :</span>
-            <span class="limit-value">{{ plan.limiteEleves }}</span>
-          </div>
-          <div class="limit-item" *ngIf="plan.limiteCours">
-            <span class="limit-label">Cours/mois :</span>
-            <span class="limit-value">{{ plan.limiteCours }}</span>
-          </div>
-        </div>
-
-        <!-- Bouton de sélection -->
-        <button class="btn-select-plan" 
-                [class.selected]="selectedPlan?.id === plan.id"
-                (click)="selectPlan(plan)">
-          {{ selectedPlan?.id === plan.id ? 'Sélectionné' : 'Choisir ce plan' }}
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Section de paiement -->
-  <div class="payment-section" *ngIf="selectedPlan && !isPlanGratuit(selectedPlan)">
-    <div class="payment-card">
-      <h3>Méthode de paiement</h3>
+  <!-- Formulaire Étudiant -->
+  <div class="form-container" *ngIf="activeTab === 'student'">
+    <form [formGroup]="studentForm" (ngSubmit)="onStudentSubmit()" class="subscription-form">
+      <h2>Inscription Étudiant</h2>
       
-      <div class="payment-methods">
-        <div class="payment-method" 
-             [class.selected]="methodePaiement === 'carte'"
-             (click)="methodePaiement = 'carte'">
-          <input type="radio" name="payment" value="carte" 
-                 [(ngModel)]="methodePaiement" id="carte">
-          <label for="carte">
-            <span class="payment-icon">💳</span>
-            Carte bancaire
-          </label>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentNom">Nom *</label>
+          <input 
+            type="text" 
+            id="studentNom" 
+            formControlName="nom" 
+            placeholder="Votre nom">
         </div>
-
-        <div class="payment-method" 
-             [class.selected]="methodePaiement === 'paypal'"
-             (click)="methodePaiement = 'paypal'">
-          <input type="radio" name="payment" value="paypal" 
-                 [(ngModel)]="methodePaiement" id="paypal">
-          <label for="paypal">
-            <span class="payment-icon">📧</span>
-            PayPal
-          </label>
-        </div>
-
-        <div class="payment-method" 
-             [class.selected]="methodePaiement === 'virement'"
-             (click)="methodePaiement = 'virement'">
-          <input type="radio" name="payment" value="virement" 
-                 [(ngModel)]="methodePaiement" id="virement">
-          <label for="virement">
-            <span class="payment-icon">🏦</span>
-            Virement bancaire
-          </label>
+        
+        <div class="form-group">
+          <label for="studentPrenom">Prénom *</label>
+          <input 
+            type="text" 
+            id="studentPrenom" 
+            formControlName="prenom" 
+            placeholder="Votre prénom">
         </div>
       </div>
 
-      <!-- Résumé de la commande -->
-      <div class="order-summary">
-        <h4>Résumé de votre commande</h4>
-        <div class="summary-item">
-          <span>Plan {{ selectedPlan.nom }}</span>
-          <span>{{ selectedPlan.prix }} MAD</span>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentDateNaissance">Date de naissance *</label>
+          <input 
+            type="date" 
+            id="studentDateNaissance" 
+            formControlName="dateNaissance">
         </div>
-        <div class="summary-item">
-          <span>TVA (20%)</span>
-          <span>{{ selectedPlan.prix * 0.2 }} MAD</span>
-        </div>
-        <div class="summary-total">
-          <span>Total</span>
-          <span>{{ selectedPlan.prix * 1.2 }} MAD</span>
+        
+        <div class="form-group">
+          <label for="studentSexe">Sexe *</label>
+          <select id="studentSexe" formControlName="sexe">
+            <option value="">Sélectionner</option>
+            <option value="M">Masculin</option>
+            <option value="F">Féminin</option>
+          </select>
         </div>
       </div>
 
-      <!-- Bouton de souscription -->
-      <button class="btn-subscribe" 
-              (click)="souscrire()" 
-              [disabled]="isLoading">
-        {{ isLoading ? 'Traitement...' : 'Souscrire maintenant' }}
-      </button>
-
-      <!-- Message d'erreur -->
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentNationalite">Nationalité *</label>
+          <input 
+            type="text" 
+            id="studentNationalite" 
+            formControlName="nationalite" 
+            placeholder="Votre nationalité">
+        </div>
+        
+        <div class="form-group">
+          <label for="studentTele">Téléphone *</label>
+          <input 
+            type="tel" 
+            id="studentTele" 
+            formControlName="tele" 
+            placeholder="Votre numéro de téléphone">
+        </div>
       </div>
-    </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="studentEmail">Email *</label>
+          <input 
+            type="email" 
+            id="studentEmail" 
+            formControlName="email" 
+            placeholder="Votre email">
+        </div>
+        
+        <div class="form-group">
+          <label for="studentNiveauScolaire">Niveau scolaire *</label>
+          <select id="studentNiveauScolaire" formControlName="niveauScolaire">
+            <option value="">Sélectionner</option>
+            <option value="prescolaire">Préscolaire</option>
+            <option value="primaire">Primaire</option>
+            <option value="college">Collège</option>
+            <option value="lycee">Lycée</option>
+            <option value="superieur">Supérieur</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="studentAdresse">Adresse *</label>
+        <textarea 
+          id="studentAdresse" 
+          formControlName="adresse" 
+          placeholder="Votre adresse complète"
+          rows="3"></textarea>
+      </div>
+
+      <!-- Section Parent -->
+      <div class="parent-section">
+        <h3>Informations du parent</h3>
+        <div class="parent-choice">
+          <button 
+            type="button" 
+            class="choice-btn" 
+            [class.active]="parentChoice === 'existing'"
+            (click)="setParentChoice('existing')">
+            <span class="choice-icon">👤</span>
+            Compte parent déjà existant
+          </button>
+          <button 
+            type="button" 
+            class="choice-btn" 
+            [class.active]="parentChoice === 'new'"
+            (click)="setParentChoice('new')">
+            <span class="choice-icon">➕</span>
+            Nouveau compte parent
+          </button>
+        </div>
+
+        <!-- Parent existant -->
+        <div class="parent-existing" *ngIf="parentChoice === 'existing'">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parentEmail">Email du parent *</label>
+              <input 
+                type="email" 
+                id="parentEmail" 
+                formControlName="parentEmail" 
+                placeholder="Email du parent">
+            </div>
+            
+            <div class="form-group">
+              <label for="parentNom">Nom du parent *</label>
+              <input 
+                type="text" 
+                id="parentNom" 
+                formControlName="parentNom" 
+                placeholder="Nom du parent">
+            </div>
+          </div>
+        </div>
+
+        <!-- Nouveau parent -->
+        <div class="parent-new" *ngIf="parentChoice === 'new'">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newParentNom">Nom du parent *</label>
+              <input 
+                type="text" 
+                id="newParentNom" 
+                formControlName="newParentNom" 
+                placeholder="Nom du parent">
+            </div>
+            
+            <div class="form-group">
+              <label for="newParentPrenom">Prénom du parent *</label>
+              <input 
+                type="text" 
+                id="newParentPrenom" 
+                formControlName="newParentPrenom" 
+                placeholder="Prénom du parent">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newParentTele">Téléphone du parent *</label>
+              <input 
+                type="tel" 
+                id="newParentTele" 
+                formControlName="newParentTele" 
+                placeholder="Téléphone du parent">
+            </div>
+            
+            <div class="form-group">
+              <label for="newParentEmail">Email du parent *</label>
+              <input 
+                type="email" 
+                id="newParentEmail" 
+                formControlName="newParentEmail" 
+                placeholder="Email du parent">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nombreEnfants">Nombre d'enfants *</label>
+            <select id="nombreEnfants" formControlName="nombreEnfants">
+              <option value="">Sélectionner</option>
+              <option value="1">1 enfant</option>
+              <option value="2">2 enfants</option>
+              <option value="3">3 enfants</option>
+              <option value="4">4 enfants</option>
+              <option value="5+">5 enfants ou plus</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <span class="btn-icon">✅</span>
+        S'inscrire en tant qu'étudiant
+      </button>
+    </form>
   </div>
 
-  <!-- Section pour plan gratuit -->
-  <div class="free-plan-section" *ngIf="selectedPlan && isPlanGratuit(selectedPlan)">
-    <div class="free-plan-card">
-      <h3>Plan gratuit sélectionné</h3>
-      <p>Vous pouvez commencer immédiatement avec le plan gratuit !</p>
-      <button class="btn-start-free" (click)="souscrire()" [disabled]="isLoading">
-        {{ isLoading ? 'Traitement...' : 'Commencer gratuitement' }}
-      </button>
-    </div>
-  </div>
+  <!-- Formulaire Enseignant -->
+  <div class="form-container" *ngIf="activeTab === 'teacher'">
+    <form [formGroup]="teacherForm" (ngSubmit)="onTeacherSubmit()" class="subscription-form">
+      <h2>Inscription Enseignant</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="teacherNom">Nom *</label>
+          <input 
+            type="text" 
+            id="teacherNom" 
+            formControlName="nom" 
+            placeholder="Votre nom">
+        </div>
+        
+        <div class="form-group">
+          <label for="teacherPrenom">Prénom *</label>
+          <input 
+            type="text" 
+            id="teacherPrenom" 
+            formControlName="prenom" 
+            placeholder="Votre prénom">
+        </div>
+      </div>
 
-  <!-- Informations supplémentaires -->
-  <div class="additional-info">
-    <div class="info-card">
-      <h4>🔒 Paiement sécurisé</h4>
-      <p>Tous les paiements sont sécurisés et cryptés. Vos informations sont protégées.</p>
-    </div>
-    <div class="info-card">
-      <h4>🔄 Renouvellement automatique</h4>
-      <p>Votre abonnement se renouvelle automatiquement. Vous pouvez l'annuler à tout moment.</p>
-    </div>
-    <div class="info-card">
-      <h4>💰 Garantie satisfait ou remboursé</h4>
-      <p>Vous avez 30 jours pour tester notre plateforme. Remboursement intégral si vous n'êtes pas satisfait.</p>
-    </div>
-  </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="teacherDateNaissance">Date de naissance *</label>
+          <input 
+            type="date" 
+            id="teacherDateNaissance" 
+            formControlName="dateNaissance">
+        </div>
+        
+        <div class="form-group">
+          <label for="teacherSexe">Sexe *</label>
+          <select id="teacherSexe" formControlName="sexe">
+            <option value="">Sélectionner</option>
+            <option value="M">Masculin</option>
+            <option value="F">Féminin</option>
+          </select>
+        </div>
+      </div>
 
-  <!-- Panneau de test (visible seulement en développement) -->
-  <div class="test-panel" *ngIf="showTestPanel">
-    <h3>🧪 Panneau de Test</h3>
-    
-    <div class="test-message" *ngIf="testMessage">
-      {{ testMessage }}
-      <button class="btn-clear" (click)="clearTestMessage()">✕</button>
-    </div>
-    
-    <div class="test-buttons">
-      <button class="btn-test" (click)="testSouscriptionGratuite()">
-        Test Plan Gratuit
-      </button>
-      <button class="btn-test" (click)="testSouscriptionPremium()">
-        Test Plan Premium
-      </button>
-      <button class="btn-test" (click)="testUtilisateurSansAbonnement()">
-        Simuler Utilisateur Sans Abonnement
-      </button>
-      <button class="btn-test" (click)="testUtilisateurAvecAbonnement()">
-        Recharger Abonnement Actuel
-      </button>
-    </div>
-  </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="teacherNationalite">Nationalité *</label>
+          <input 
+            type="text" 
+            id="teacherNationalite" 
+            formControlName="nationalite" 
+            placeholder="Votre nationalité">
+        </div>
+        
+        <div class="form-group">
+          <label for="teacherTele">Téléphone *</label>
+          <input 
+            type="tel" 
+            id="teacherTele" 
+            formControlName="tele" 
+            placeholder="Votre numéro de téléphone">
+        </div>
+      </div>
 
-  <!-- Bouton pour afficher/masquer le panneau de test -->
-  <button class="btn-toggle-test" (click)="toggleTestPanel()">
-    {{ showTestPanel ? 'Masquer' : 'Afficher' }} Panneau de Test
-  </button>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="teacherEmail">Email *</label>
+          <input 
+            type="email" 
+            id="teacherEmail" 
+            formControlName="email" 
+            placeholder="Votre email">
+        </div>
+        
+        <div class="form-group">
+          <label for="teacherFiliere">Filière *</label>
+          <select id="teacherFiliere" formControlName="filiere">
+            <option value="">Sélectionner</option>
+            <option value="mathematiques">Mathématiques</option>
+            <option value="physique">Physique</option>
+            <option value="chimie">Chimie</option>
+            <option value="biologie">Biologie</option>
+            <option value="francais">Français</option>
+            <option value="anglais">Anglais</option>
+            <option value="arabe">Arabe</option>
+            <option value="histoire">Histoire</option>
+            <option value="geographie">Géographie</option>
+            <option value="philosophie">Philosophie</option>
+            <option value="informatique">Informatique</option>
+            <option value="autres">Autres</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="teacherMatiere">Matière principale *</label>
+          <input 
+            type="text" 
+            id="teacherMatiere" 
+            formControlName="matiere" 
+            placeholder="Votre matière principale">
+        </div>
+        
+        <div class="form-group">
+          <label for="teacherAdresse">Adresse *</label>
+          <textarea 
+            id="teacherAdresse" 
+            formControlName="adresse" 
+            placeholder="Votre adresse complète"
+            rows="3"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <span class="btn-icon">✅</span>
+        S'inscrire en tant qu'enseignant
+      </button>
+    </form>
+  </div>
 </div> 
