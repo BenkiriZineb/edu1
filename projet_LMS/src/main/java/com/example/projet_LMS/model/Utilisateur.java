@@ -2,13 +2,15 @@ package com.example.projet_LMS.model;
 
 import java.time.LocalDate;
 
+
 import com.example.projet_LMS.Enum.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+// @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
 @ToString(exclude = {"mdp"})
@@ -33,18 +35,23 @@ public  class Utilisateur {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
-
     private String mdp;
+    //@Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate datedenaissance;
-    @Column(name = "sexe")
+
+
+    //@Column(nullable = false)
     private String sexe;
+    //@Column(nullable = false)
     private String adresse;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
-
     
+    @Column(nullable = false)
+    private boolean actif ;
 
  
 }

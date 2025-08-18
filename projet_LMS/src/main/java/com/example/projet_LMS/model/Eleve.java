@@ -7,7 +7,7 @@ package com.example.projet_LMS.model;
 
 import java.util.List;
 
-
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
+@DiscriminatorValue("ELEVE")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,6 +52,7 @@ public class Eleve extends Utilisateur {
     @JoinColumn(name = "parent_id")
     private Parent parent; // Association avec Parent
     // Association avec Adresse
+
 
     }
 
