@@ -86,12 +86,15 @@ import com.example.projet_LMS.repositories.UtilisateurRepository;
             // Implementation logic to delete all utilisateurs
             utilisateurRepository.deleteAll(); 
         }
-
-        @Override
-        public Utilisateur getUtilisateurById(Long id) {
-            // Implementation logic to get utilisateur by ID
-            return utilisateurRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("utilisateur with ID " + id + " does not exist.")); // Replace with actual implementation
-        }
+@Override
+public Optional<Utilisateur> getUtilisateurById(Long id) {
+    Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
+    if (utilisateur.isEmpty()) {
+        // Log warning or handle empty case
+        System.out.println("Utilisateur with ID " + id + " not found");
+    }
+    return utilisateur;
+}
 
         @Override
         public List<Utilisateur> getAllUtilisateurs() {
@@ -112,5 +115,13 @@ import com.example.projet_LMS.repositories.UtilisateurRepository;
         public boolean emailExists(String email) {
             return utilisateurRepository.existsByEmail(email);
         }
+
+        @Override
+    public Utilisateur updateEtat(Long id, boolean actif) {
+        Utilisateur utilisateur = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec id " + id));
+        utilisateur.setActif(actif); // ⚡ ton entité Utilisateur doit avoir un champ "actif"
+        return utilisateurRepository.save(utilisateur);
+    }
         
     }

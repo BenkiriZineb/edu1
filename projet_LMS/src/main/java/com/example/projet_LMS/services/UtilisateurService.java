@@ -14,9 +14,9 @@ public interface UtilisateurService {
     Utilisateur updateUtilisateur(Utilisateur utilisateur);
     void deleteUtilisateurById(Long id);
     void deleteAllUtilisateurs();
-    Utilisateur getUtilisateurById(Long id);
+   Optional<Utilisateur> getUtilisateurById(Long id);
     List<Utilisateur> getAllUtilisateurs();
     public Optional<Utilisateur> findByEmail(String email) ;
     public boolean emailExists(String email) ;
-    
+     Utilisateur updateEtat(Long id, boolean actif);
 }

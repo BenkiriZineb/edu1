@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 //import jakarta.persistence.JoinColumn;
 //import jakarta.persistence.ManyToOne;
@@ -30,15 +32,15 @@ public class Matiere {
     private Long id;
     private String nom;
     private String note ;
-    private String description;
+    private String coeficient;
     @OneToMany(mappedBy = "matiere") // Doit correspondre au nom de l'attribut côté "Cours"
     private List<Cours> cours;
+    @ManyToOne
+    @JoinColumn(name = "niveau_id")
+    private NiveauScolaire niveauScolaire;
 
      @ManyToMany(mappedBy = "matieres") // Doit correspondre au nom de l'attribut côté "Professeur"
     private List<Professeur> professeurs; // Association avec Professeur
-   
-     @ManyToMany(mappedBy = "matieres") // Doit correspondre au nom de l'attribut côté "NiveauScolaire"
-    private List<NiveauScolaire> niveauxScolaires; // Association avec NiveauScolaire
 
     @ManyToMany(mappedBy = "matieres") // Doit correspondre au nom de l'attribut côté "Eleve"
     private List<Eleve> eleves; // Association avec Eleve

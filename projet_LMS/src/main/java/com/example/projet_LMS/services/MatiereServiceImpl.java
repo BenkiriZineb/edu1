@@ -1,41 +1,59 @@
 package com.example.projet_LMS.services;
 
 import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.stereotype.Service;
 
 import com.example.projet_LMS.model.Matiere;
+import com.example.projet_LMS.model.NiveauScolaire;
 import com.example.projet_LMS.repositories.MatiereRepository;
-import lombok.AllArgsConstructor;
-@Service
-@AllArgsConstructor
-public class MatiereServiceImpl implements MatiereService {
-    
-    @Autowired
-    private MatiereRepository matiereRepository;
+import com.example.projet_LMS.repositories.NiveauScolaireRepository;
 
-    @Override
-    public void addMatiere(Matiere matiere) {
-        matiereRepository.save(matiere);
-    }
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class MatiereServiceImpl implements MatiereService {
+
+    private final MatiereRepository matiereRepository;
+    private final NiveauScolaireRepository niveauScolaireRepository; 
+ @Override
+public Matiere addMatiere(Matiere matiere, Long niveauId) {
+    // Récupérer le niveau scolaire via le repository existant
+    NiveauScolaire niveau = niveauScolaireRepository.findById(niveauId)
+            .orElseThrow(() -> new RuntimeException("NiveauScolaire not found"));
+
+    // Associer la matière au niveau scolaire
+    matiere.setNiveauScolaire(niveau);
+
+    // Sauvegarder la matière
+    return matiereRepository.save(matiere);
+}
+
 
     @Override
     public Matiere saveMatiere(Matiere matiere) {
         return matiereRepository.save(matiere);
     }
 
-    @Override
-    public void updateMatiere(Matiere matiere) {
-        if (matiere.getId() != null && matiereRepository.existsById(matiere.getId())) {
-            matiereRepository.save(matiere);
-        } else {
-            throw new IllegalArgumentException("Matiere with ID " + matiere.getId() + " not found.");
-        }
+     @Override
+    public Matiere updateMatiere(Long id, Matiere matiere) {
+        return matiereRepository.findById(id)
+                .map(existingMatiere -> {
+                     existingMatiere.setNom(matiere.getNom());
+                     existingMatiere.setCoeficient(matiere.getCoeficient());
+                     existingMatiere.setNiveauScolaire(matiere.getNiveauScolaire());
+                     return matiereRepository.save(existingMatiere);
+                })
+                .orElseThrow(() -> new RuntimeException("Matiere avec ID " + id + " non trouvée"));
     }
 
     @Override
     public void deleteMatiereById(Long id) {
+        if (!matiereRepository.existsById(id)) {
+            throw new RuntimeException("Matiere avec ID " + id + " non trouvée");
+        }
         matiereRepository.deleteById(id);
     }
 
@@ -46,13 +64,8 @@ public class MatiereServiceImpl implements MatiereService {
 
     @Override
     public Matiere getMatiereById(Long id) {
-        Optional<Matiere> optional = matiereRepository.findById(id);
-        return optional.orElse(null);
-    }
-
-    @Override
-    public Matiere getMatiereByName(String name) {
-        return matiereRepository.findByNom(name);
+        return matiereRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Matiere avec ID " + id + " non trouvée"));
     }
 
     @Override
@@ -60,5 +73,8 @@ public class MatiereServiceImpl implements MatiereService {
         return matiereRepository.findAll();
     }
 
-   
+    @Override
+    public List<Matiere> getMatieresByNiveauId(Long niveauId) {
+        return matiereRepository.findByNiveauScolaire_Id(niveauId);
+    }
 }

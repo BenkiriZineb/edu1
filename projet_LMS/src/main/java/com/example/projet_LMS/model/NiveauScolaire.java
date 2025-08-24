@@ -6,9 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,13 +28,12 @@ public class NiveauScolaire {
     private String anneeScolaire;
     private String classe;
     private String filiere;
-    @ManyToMany@JoinTable(
-    name = "niveau_matiere",
-    joinColumns = @JoinColumn(name = "niveau_id"),
-    inverseJoinColumns = @JoinColumn(name = "matiere_id"))
+    @OneToMany(mappedBy = "niveauScolaire")
     private List<Matiere> matieres; // Association avec Matiere
+     
    @OneToMany(mappedBy = "niveauScolaireObj")
 private List<Eleve> eleves;
+ 
 
 
 }
