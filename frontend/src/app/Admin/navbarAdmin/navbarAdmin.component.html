@@ -1,0 +1,41 @@
+<nav class="navbar-admin">
+  <div class="navbar-brand">
+    <a routerLink="/admin/home">
+      <img src="assets/images/eco.png" alt="Eco Logo" class="logo" />
+    </a>
+    <span class="admin-title">Espace Administrateur</span>
+  </div>
+
+  <ul class="nav-links">
+    <li>
+      <a routerLink="/list_utilisateurs" 
+         routerLinkActive="active" 
+        >
+        <i class="fas fa-users"></i> Liste Utilisateurs
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/courses" 
+         routerLinkActive="active">
+        <i class="fas fa-book"></i> Cours
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/school-years" 
+         routerLinkActive="active">
+        <i class="fas fa-calendar-alt"></i> Années Scolaires
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/payments" 
+         routerLinkActive="active">
+        <i class="fas fa-credit-card"></i> Paiements
+      </a>
+    </li>
+    <li class="logout-item">
+      <a (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Déconnexion
+      </a>
+    </li>
+  </ul>
+</nav>

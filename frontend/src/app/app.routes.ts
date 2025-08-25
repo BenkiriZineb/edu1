@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -15,6 +24,8 @@ import { DashboardEleveComponent } from './dashboard-eleve/dashboard-eleve.compo
 import { DashboardEnseignantComponent } from './dashboard-enseignant/dashboard-enseignant.component';
 import { DashboardParentComponent } from './dashboard-parent/dashboard-parent.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { InscriptionComponent } from './inscription/inscription.component';
+import { HomeAComponent } from './Admin/homeAdmin/homeA.component';
 
 
 export const appRoutes: Routes = [
@@ -23,11 +34,56 @@ export const appRoutes: Routes = [
   { path: 'materiels', component: MaterielComponent },
   { path: 'calendrier', component: CalendarComponent },
   { path: 'ecole', component: EcoleComponent },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
+  {path: 'login',component: LoginComponent},
   { path: 'subscription', component: SubscriptionComponent },
+
+
+
+
+////admin routes
+
+/*{ 
+    path: 'admin', 
+    component: AdminLayoutComponent,  // Layout avec navbar/sidebar admin
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      
+      // Gestion des utilisateurs
+      { path: 'users', component: UserListComponent },
+      { path: 'users/new', component: UserFormComponent },
+      { path: 'users/edit/:id', component: UserFormComponent },
+      
+      // Inscription spécifique admin
+      { path: 'inscription', component: AdminInscriptionComponent }, 
+      
+      // Autres routes admin
+      { path: 'settings', component: SettingsComponent },
+      { path: 'reports', component: ReportsComponent }
+    ]
+  }
+   */ 
+
+  {path: 'list_utilisateurs', component: HomeAComponent },
+
+
+
+  { path: 'inscription', component: InscriptionComponent },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   { path: 'dashboard-eleve', component: DashboardEleveComponent },
   { path: 'dashboard-eleve/cours', component: DashboardEleveComponent },

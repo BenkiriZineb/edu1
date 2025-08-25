@@ -1,0 +1,219 @@
+/* Corps de la page pour centrage vertical */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Conteneur principal */
+.inscription-container {
+  max-width: 500px;
+  width: 90%;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Titre du formulaire */
+.form-title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Formulaire */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Groupes de champs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Labels */
+label {
+  font-weight: 500;
+  color: #34495e;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Champs de saisie */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  padding: 0.75rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* États des champs */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+  background-color: #fdf2f2;
+}
+
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched {
+  border-color: #27ae60;
+  background-color: #f8fff8;
+}
+
+/* Select personnalisé */
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 3rem;
+}
+
+/* Bouton de soumission */
+button[type="submit"] {
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2980b9, #3498db);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+button[type="submit"]:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Messages d'erreur */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error-message::before {
+  content: "⚠️";
+  font-size: 0.75rem;
+}
+
+/* Messages de succès */
+.success-message {
+  color: #27ae60;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.success-message::before {
+  content: "✅";
+  font-size: 0.75rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+    align-items: flex-start;
+  }
+  
+  .inscription-container {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    font-size: 16px; /* Évite le zoom sur iOS */
+  }
+}
+
+/* Animation de chargement */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Indicateurs de force du mot de passe */
+.password-strength {
+  height: 4px;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.password-strength.weak {
+  background-color: #e74c3c;
+  width: 33%;
+}
+
+.password-strength.medium {
+  background-color: #f39c12;
+  width: 66%;
+}
+
+.password-strength.strong {
+  background-color: #27ae60;
+  width: 100%;
+}
