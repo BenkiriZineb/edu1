@@ -112,21 +112,7 @@ export class HomeAComponent implements OnInit {
     });
   }
 
-  toggleUserStatus(userId: number, currentStatus: boolean): void {
-    const newStatus = !currentStatus;
-    this.http.patch(`${this.apiUrl}/${userId}/status`, { actif: newStatus })
-      .subscribe({
-        next: () => {
-          const user = this.users.find(u => u.id === userId);
-          if (user) {
-            user.actif = newStatus;
-          }
-        },
-        error: (error) => {
-          console.error('Error updating user status:', error);
-        }
-      });
-  }
+  
 
   confirmDelete(userId: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
@@ -163,4 +149,33 @@ export class HomeAComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredUsers.slice(startIndex, startIndex + this.itemsPerPage);
   }
+   activateUserAccount(user: User): void {
+    // Implémentation alternative pour activer un compte utilisateur
+    this.http.patch(`${this.apiUrl}/${user.id}/activate`, {})
+      .subscribe({
+        next: (res) => {
+          console.log("Compte activé", res);
+          user.actif = true;
+        },
+        error: (err) => {
+          console.error("Erreur lors de l'activation", err);
+        }
+      });
+  }
+  toggleUserStatus(userId: number, currentStatus: boolean): void {
+  const newStatus = !currentStatus;
+  this.http.put(`${this.apiUrl}/${userId}/etat?actif=${newStatus}`, {}, { responseType: 'text' })
+    .subscribe({
+      next: () => {
+        const user = this.users.find(u => u.id === userId);
+        if (user) {
+          user.actif = newStatus;
+        }
+      },
+      error: (error) => {
+        console.error('Error updating user status:', error);
+        this.errorMessage = 'Échec de la mise à jour du statut';
+      }
+    });
+}
 }

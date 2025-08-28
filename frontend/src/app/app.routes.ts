@@ -26,6 +26,12 @@ import { DashboardParentComponent } from './dashboard-parent/dashboard-parent.co
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { HomeAComponent } from './Admin/homeAdmin/homeA.component';
+import { EditUserComponent } from './Admin/edit-user/edit-user.component';
+import { SchoolYearsComponent } from './Admin/list-NiveauScolaire/school-years.component';
+import { MatieresComponent } from './Admin/list-Matieres/matieres.component';
+import { CoursListComponent } from './Admin/list-cours/cours-list.component';
+import { SommaireComponent } from './Admin/list-sommaire/sommaire.component';
+import { ChapitreComponent } from './Admin/list-chapitres/chapitre.component';
 
 
 export const appRoutes: Routes = [
@@ -66,16 +72,17 @@ export const appRoutes: Routes = [
 
   {path: 'list_utilisateurs', component: HomeAComponent },
 
+{ path: 'admin/users/edit/:id', component: EditUserComponent },
 
-
+{ path: 'admin/school-years', component: SchoolYearsComponent },
   { path: 'inscription', component: InscriptionComponent },
+{ path: 'niveaux/:id/matieres', component: MatieresComponent },
 
+ { path: 'matiere/:id/cours/add', component: CoursesComponent },
 
-
-
-
-
-
+ { path: 'matiere/:id/cours', component: CoursListComponent },   // <-- ici : list des cours d'une matière
+ { path: 'admin/sommaire/:coursId', component: SommaireComponent },
+  { path: '/admin/chapitre/:sommaireId', component:ChapitreComponent  },
 
 
 

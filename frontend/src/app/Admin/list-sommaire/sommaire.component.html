@@ -1,0 +1,102 @@
+<div class="sommaire-container">
+  <h2 *ngIf="currentCours">Liste des Sommaires du cours "{{ currentCours.nom }}"</h2>
+
+  <!-- Messages de feedback -->
+  <div *ngIf="error" class="alert alert-danger">
+    <strong>❌ Erreur:</strong> {{ error }}
+  </div>
+  
+  <div *ngIf="successMessage" class="alert alert-success">
+    <strong>✅ Succès:</strong> {{ successMessage }}
+  </div>
+
+  <!-- Liste des sommaires -->
+  <div class="sommaires-list">
+    <div *ngFor="let sommaire of sommaires; trackBy: trackBySommaireId" 
+         class="sommaire-item"
+         [class.editing]="isEditing(sommaire)">
+      
+      <!-- Mode normal (lecture seule) -->
+      <div *ngIf="!isEditing(sommaire)" class="sommaire-view">
+        <div class="sommaire-content">
+          <strong class="sommaire-titre">{{ sommaire.titre }}</strong>
+        </div>
+         
+
+        <div class="sommaire-actions">
+        <button (click)="goTochapitre(c.id)">📚 Voir chapitres </button>
+          <button (click)="startEdit(sommaire)" 
+                  class="btn btn-edit"
+                  title="Modifier">
+            ✏️ Modifier
+          </button>
+          <button (click)="deleteSommaire(sommaire.id)" 
+                  class="btn btn-delete"
+                  [disabled]="!sommaire.id"
+                  title="Supprimer">
+            🗑️ Supprimer
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Mode édition -->
+      <div *ngIf="isEditing(sommaire)" class="sommaire-edit">
+        <div class="edit-form">
+          <input type="text" 
+                 [(ngModel)]="editingTitre"
+                 class="edit-input"
+                 placeholder="Titre du sommaire"
+                 [disabled]="isSubmitting"
+                 (keyup.enter)="saveEdit()"
+                 (keyup.escape)="cancelEdit()"
+                 #editInput>
+        </div>
+        
+        <div class="edit-actions">
+          <button (click)="saveEdit()" 
+                  class="btn btn-save"
+                  [disabled]="isSubmitting || !editingTitre.trim()"
+                  title="Sauvegarder (Entrée)">
+            {{ isSubmitting ? '⏳' : '💾' }} 
+            {{ isSubmitting ? 'Sauvegarde...' : 'Sauver' }}
+          </button>
+          <button (click)="cancelEdit()" 
+                  class="btn btn-cancel"
+                  [disabled]="isSubmitting"
+                  title="Annuler (Échap)">
+            ❌ Annuler
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message si aucun sommaire -->
+    <div *ngIf="sommaires.length === 0" class="no-sommaires">
+      <p>Aucun sommaire trouvé pour ce cours.</p>
+    </div>
+  </div>
+
+  <!-- Formulaire d'ajout -->
+  <div class="add-sommaire-section">
+    <h3>➕ Ajouter un nouveau sommaire</h3>
+    
+    <form (ngSubmit)="addSommaire()" class="add-form">
+      <div class="form-group">
+        <input type="text" 
+               [(ngModel)]="newSommaire.titre" 
+               name="titre" 
+               placeholder="Titre du sommaire" 
+               required 
+               [disabled]="isSubmitting"
+               class="form-control">
+      </div>
+      
+      <button type="submit" 
+              class="btn btn-primary btn-add"
+              [disabled]="!newSommaire.titre?.trim() || isSubmitting">
+        {{ isSubmitting ? '⏳ Ajout...' : '➕ Ajouter le sommaire' }}
+      </button>
+    </form>
+  </div>
+</div>

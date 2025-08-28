@@ -1,75 +1,75 @@
-<div class="admin-container">
-  <!-- Navigation supprimée temporairement pour test -->
-  <app-navbar-admin></app-navbar-admin> 
+  <div class="admin-container">
+    <!-- Navigation supprimée temporairement pour test -->
+    <app-navbar-admin></app-navbar-admin> 
 
-  <div class="content-container">
-    <div class="header-section">
-      <h2>Gestion des Utilisateurs - Test</h2>
-      <button routerLink="/inscription" class="btn-add">
-        Ajouter Utilisateur
-      </button>
-    </div>
-
-    <div class="search-filter-section">
-      <div class="search-box">
-        <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher utilisateur..." 
-               (input)="applyFilter()">
+    <div class="content-container">
+      <div class="header-section">
+        <h2>Gestion des Utilisateurs - Test</h2>
+        <button routerLink="/inscription" class="btn-add">
+          Ajouter Utilisateur
+        </button>
       </div>
-      
-      <div class="filter-options">
-        <select [(ngModel)]="roleFilter" (change)="applyFilter()">
-          <option value="">Tous les rôles</option>
-          <option *ngFor="let role of userRoles" [value]="role">{{role}}</option>
-        </select>
-      </div>
-    </div>
 
-    <!-- Table simplifiée sans PrimeNG -->
-    <div class="table-responsive">
-      <table>
-        <thead>
-          <tr>
-            <th (click)="sortTable('nom')">Nom</th>
-            <th (click)="sortTable('email')">Email</th>
-            <th>Rôle</th>
-            <th>Statut</th>
-            <th>Date Création</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of getPaginatedUsers()">
-            <td>{{ user.nom }} {{ user.prenom }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-              <span class="role-badge">{{ user.role }}</span>
-            </td>
-            <td>
-              <span [class]="user.actif ? 'active' : 'inactive'">
-                {{ user.actif ? 'Actif' : 'Inactif' }}
-              </span>
-            </td>
-           <!-- <td>{{ formatDate(user.dateCreation) }}</td> -->
-            <td class="actions">
-              <button [routerLink]="['/admin/users/edit', user.id]">Modifier</button>
-              <button (click)="toggleUserStatus(user.id, user.actif)">
-                {{ user.actif ? 'Désactiver' : 'Activer' }}
-              </button>
-              <button (click)="confirmDelete(user.id)">Supprimer</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      
-      <div *ngIf="filteredUsers.length === 0" class="no-results">
-        Aucun utilisateur trouvé
+      <div class="search-filter-section">
+        <div class="search-box">
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Rechercher utilisateur..." 
+                (input)="applyFilter()">
+        </div>
+        
+        <div class="filter-options">
+          <select [(ngModel)]="roleFilter" (change)="applyFilter()">
+            <option value="">Tous les rôles</option>
+            <option *ngFor="let role of userRoles" [value]="role">{{role}}</option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <div class="pagination" *ngIf="filteredUsers.length > 0">
-      <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
-      <span>Page {{currentPage}} sur {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+      <!-- Table simplifiée sans PrimeNG -->
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th (click)="sortTable('nom')">Nom</th>
+              <th (click)="sortTable('email')">Email</th>
+              <th>Rôle</th>
+              <th>Statut</th>
+              <!-- <th>Date de Création</th> -->
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of getPaginatedUsers()">
+              <td>{{ user.nom }} {{ user.prenom }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="role-badge">{{ user.role }}</span>
+              </td>
+              <td>
+                <span [class]="user.actif ? 'active' : 'inactive'">
+                  {{ user.actif ? 'Actif' : 'Inactif' }}
+                </span>
+              </td>
+            <!-- <td>{{ formatDate(user.dateCreation) }}</td> -->
+              <td class="actions">
+                <button [routerLink]="['/admin/users/edit', user.id]">Modifier</button>
+                <button (click)="toggleUserStatus(user.id, user.actif)">
+                  {{ user.actif ? 'Désactiver' : 'Activer' }}
+                </button>
+                <button (click)="confirmDelete(user.id)">Supprimer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="filteredUsers.length === 0" class="no-results">
+          Aucun utilisateur trouvé
+        </div>
+      </div>
+
+      <div class="pagination" *ngIf="filteredUsers.length > 0">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
+        <span>Page {{currentPage}} sur {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+      </div>
     </div>
   </div>
-</div>

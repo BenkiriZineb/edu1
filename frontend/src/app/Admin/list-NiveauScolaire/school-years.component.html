@@ -1,0 +1,158 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="niveaux-container">
+  <div class="page-header">
+    <h2>Gestion des Niveaux Scolaires</h2>
+  </div>
+
+  <!-- Section d'ajout -->
+  <div class="add-section">
+    <h3>Ajouter un nouveau niveau</h3>
+    
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="niveau-etude">Niveau d'étude *</label>
+        <input 
+          id="niveau-etude"
+          [(ngModel)]="newNiveau.niveau_etude" 
+          placeholder="Ex: Primaire, Collège, Lycée"
+          [class.error]="!newNiveau.niveau_etude.trim() && isSubmitting"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="annee-scolaire">Année scolaire *</label>
+        <input 
+          id="annee-scolaire"
+          [(ngModel)]="newNiveau.anneeScolaire" 
+          placeholder="Ex: 2024-2025"
+          [class.error]="!newNiveau.anneeScolaire.trim() && isSubmitting"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="classe">Classe *</label>
+        <input 
+          id="classe"
+          [(ngModel)]="newNiveau.classe" 
+          placeholder="Ex: CP, 6ème, 1ère S"
+          [class.error]="!newNiveau.classe.trim() && isSubmitting"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="filiere">Filière *</label>
+        <input 
+          id="filiere"
+          [(ngModel)]="newNiveau.filiere" 
+          placeholder="Ex: Générale, Scientifique, Littéraire"
+          [class.error]="!newNiveau.filiere.trim() && isSubmitting"
+        />
+      </div>
+    </div>
+    
+    <button 
+      class="btn-primary" 
+      (click)="addNiveau()"
+      [disabled]="isSubmitting"
+    >
+      <div *ngIf="isSubmitting" class="loading-spinner"></div>
+      <span>{{ isSubmitting ? 'Ajout en cours...' : 'Ajouter le niveau' }}</span>
+    </button>
+  </div>
+
+  <!-- Liste des niveaux -->
+  
+
+<div class="niveaux-container">
+  <div class="page-header">
+    <h2>Gestion des Niveaux Scolaires</h2>
+  </div>
+  <!-- Liste des niveaux -->
+  <div class="niveaux-list">
+    <h3>
+      Liste des niveaux scolaires
+      <div class="list-info">
+        📊 {{ niveaux.length }} niveau{{ niveaux.length > 1 ? 'x' : '' }} total{{ niveaux.length > 1 ? 'aux' : '' }}
+      </div>
+    </h3>
+
+    <!-- État de chargement -->
+    <div *ngIf="isLoading" class="loading-state">
+      <div class="loading-spinner" style="width: 40px; height: 40px; border-color: #007bff; border-top-color: transparent; margin: 0 auto 20px;"></div>
+      <p>Chargement des niveaux scolaires...</p>
+    </div>
+
+    <!-- État vide -->
+    <div *ngIf="!isLoading && niveaux.length === 0" class="empty-state">
+      <div class="empty-state-icon">📚</div>
+      <h4>Aucun niveau scolaire</h4>
+      <p>Commencez par ajouter votre premier niveau scolaire en utilisant le formulaire ci-dessus.</p>
+    </div>
+
+    <!-- Liste des éléments -->
+    <div *ngIf="!isLoading && niveaux.length > 0">
+      <div *ngFor="let niveau of getPaginatedNiveaux()" class="niveau-item">
+        <div class="niveau-info">
+          <div class="info-item">
+            <span class="info-label">Niveau d'étude</span>
+            <span class="info-value">{{ niveau.niveau_etude }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Année scolaire</span>
+            <span class="info-value">{{ niveau.anneeScolaire }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Classe</span>
+            <span class="info-value">{{ niveau.classe }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Filière</span>
+            <span class="info-value">{{ niveau.filiere }}</span>
+          </div>
+        </div>
+
+        <!-- Boutons d’action -->
+        <div class="actions">
+          <button class="btn-secondary" (click)="goToMatieres(niveau.id)">
+            📖 Voir matières
+          </button>
+          <button class="btn-delete" (click)="deleteNiveau(niveau)">
+            🗑️ Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+
+</div>
+
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="!isLoading && niveaux.length > itemsPerPage">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      ← Précédent
+    </button>
+    
+    <div class="page-numbers">
+      <button 
+        *ngFor="let page of getPaginationArray()"
+        class="page-number"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+    </div>
+    
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Suivant →
+    </button>
+    
+    <div class="page-info">
+      Affichage de {{ getStartIndex() }} à {{ getEndIndex() }} sur {{ niveaux.length }} éléments
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="edit-container">
+  <h2>Modifier Utilisateur</h2>
+  <form (ngSubmit)="updateUser()">
+    
+    <label>Nom:</label>
+    <input type="text" [(ngModel)]="user.nom" name="nom" required>
+
+    <label>Prénom:</label>
+    <input type="text" [(ngModel)]="user.prenom" name="prenom" required>
+
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="user.email" name="email" required>
+
+    <label>Rôle:</label>
+    <select [(ngModel)]="user.role" name="role" required>
+      <option value="ELEVE">Élève</option>
+      <option value="PROFESSEUR">Professeur</option>
+      <option value="PARENT">Parent</option>
+      <option value="ADMIN">Admin</option>
+    </select>
+
+    <label>Statut:</label>
+    <select [(ngModel)]="user.actif" name="actif" required>
+      <option [ngValue]="true">Actif</option>
+      <option [ngValue]="false">Inactif</option>
+    </select>
+
+    <label>Date de naissance:</label>
+    <input type="date" [(ngModel)]="user.datedenaissance" name="datedenaissance" required>
+
+    <label>Sexe:</label>
+    <select [(ngModel)]="user.sexe" name="sexe" required>
+      <option value="M">Masculin</option>
+      <option value="F">Féminin</option>
+    </select>
+
+    <label>Adresse:</label>
+    <input type="text" [(ngModel)]="user.adresse" name="adresse" placeholder="Adresse complète">
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-save">Enregistrer</button>
+      <button type="button" (click)="cancel()" class="btn-cancel">Annuler</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,27 @@
+<div class="matieres-container">
+  <h2>📖 Matières du niveau {{ niveauId }}</h2>
+
+  <div *ngIf="isLoading" class="loading">Chargement...</div>
+
+  <div class="add-matiere">
+    <input [(ngModel)]="newMatiere.nom" placeholder="Nom de la matière" />
+    <input type="number" [(ngModel)]="newMatiere.coeficient" placeholder="coeficient" min="1" />
+    <button (click)="addMatiere()" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Ajout...' : 'Ajouter' }}
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && matieres.length === 0" class="no-data">
+    <p>Aucune matière trouvée pour ce niveau.</p>
+  </div>
+
+  <ul *ngIf="!isLoading && matieres.length > 0">
+    <li *ngFor="let matiere of matieres; trackBy: trackById">
+      <input [(ngModel)]="matiere.nom" />
+      <input type="number" [(ngModel)]="matiere.coeficient" min="1" />
+      <button (click)="updateMatiere(matiere)">💾 Modifier</button>
+      <button (click)="deleteMatiere(matiere.id)">🗑️ Supprimer</button>
+      <button (click)="goToCours(matiere.id)">📚 Voir Cours</button>
+    </li>
+  </ul>
+</div>
