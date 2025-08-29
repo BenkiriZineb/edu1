@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.projet_LMS.model.Eleve;
+import com.example.projet_LMS.model.InscriptionEleveDTO;
+import com.example.projet_LMS.model.NiveauScolaire;
 import com.example.projet_LMS.repositories.EleveRepository;
+import com.example.projet_LMS.repositories.NiveauScolaireRepository;
 
 import lombok.AllArgsConstructor;
 @Service
@@ -15,6 +18,9 @@ import lombok.AllArgsConstructor;
 public class EleveServiceImpl implements EleveService {
    @Autowired
     private EleveRepository eleveRepository;
+    
+    @Autowired
+    private NiveauScolaireRepository niveauScolaireRepository;
 
     public void addEleve(Eleve eleve) {
         eleveRepository.save(eleve);
@@ -74,5 +80,50 @@ public class EleveServiceImpl implements EleveService {
         return Optional.ofNullable(optional.orElse(null));
     }
 
+    @Override
+    public Eleve createEleveWithNiveauScolaire(InscriptionEleveDTO inscriptionDTO) {
+        // Créer ou récupérer le niveau scolaire
+        NiveauScolaire niveauScolaire = createOrGetNiveauScolaire(inscriptionDTO.getNiveauScolaire());
+        
+        // Créer l'élève avec les setters
+        Eleve eleve = new Eleve();
+        eleve.setNom(inscriptionDTO.getNom());
+        eleve.setPrenom(inscriptionDTO.getPrenom());
+        eleve.setEmail(inscriptionDTO.getEmail());
+        eleve.setMdp(inscriptionDTO.getMdp());
+        eleve.setRole(inscriptionDTO.getRole());
+        eleve.setSexe(inscriptionDTO.getSexe());
+        eleve.setDatedenaissance(inscriptionDTO.getDatedenaissance());
+        eleve.setAdresse(inscriptionDTO.getAdresse());
+        eleve.setNiveauScolaireObj(niveauScolaire);
+        
+        return eleveRepository.save(eleve);
+    }
     
+    private NiveauScolaire createOrGetNiveauScolaire(String niveauScolaireString) {
+        // Logique pour créer ou récupérer le niveau scolaire
+        // Pour l'instant, créons un niveau scolaire basique
+        NiveauScolaire niveau = new NiveauScolaire();
+        niveau.setClasse(niveauScolaireString);
+        niveau.setNiveau_etude(getNiveauEtudeFromString(niveauScolaireString));
+        niveau.setAnneeScolaire("2024-2025");
+        
+        return niveauScolaireRepository.save(niveau);
+    }
+    
+    private String getNiveauEtudeFromString(String niveauString) {
+        if (niveauString.toLowerCase().contains("crèche") || niveauString.toLowerCase().contains("maternelle")) {
+            return "PRESCOLAIRE";
+        } else if (niveauString.toLowerCase().contains("cp") || niveauString.toLowerCase().contains("ce") || niveauString.toLowerCase().contains("cm")) {
+            return "PRIMAIRE";
+        } else if (niveauString.toLowerCase().contains("ème") || niveauString.toLowerCase().contains("sixième") || niveauString.toLowerCase().contains("cinquième")) {
+            return "COLLEGE";
+        } else if (niveauString.toLowerCase().contains("nde") || niveauString.toLowerCase().contains("ère") || niveauString.toLowerCase().contains("terminale")) {
+            return "LYCEE";
+        } else if (niveauString.toLowerCase().contains("bac") || niveauString.toLowerCase().contains("licence") || niveauString.toLowerCase().contains("master")) {
+            return "SUPERIEUR";
+        } else {
+            return "AUTRE";
+        }
+    }
 }

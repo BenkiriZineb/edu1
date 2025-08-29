@@ -123,5 +123,11 @@ public Optional<Utilisateur> getUtilisateurById(Long id) {
         utilisateur.setActif(actif); // ⚡ ton entité Utilisateur doit avoir un champ "actif"
         return utilisateurRepository.save(utilisateur);
     }
+    
+    @Override
+    public Utilisateur getUtilisateurByEmail(String email) {
+        Optional<Utilisateur> utilisateurOpt = utilisateurRepository.findByEmail(email);
+        return utilisateurOpt.orElse(null);
+    }
         
     }

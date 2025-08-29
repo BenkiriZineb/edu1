@@ -72,9 +72,18 @@ public Matiere addMatiere(Matiere matiere, Long niveauId) {
     public List<Matiere> getAllMatieres() {
         return matiereRepository.findAll();
     }
-
-    @Override
+ 
+   /*  @Override
     public List<Matiere> getMatieresByNiveauId(Long niveauId) {
         return matiereRepository.findByNiveauScolaire_Id(niveauId);
-    }
+    }*/
+
+    @Override
+public List<Matiere> getMatieresByNiveauId(Long niveauId) {
+    NiveauScolaire niveau = niveauScolaireRepository.findById(niveauId)
+            .orElseThrow(() -> new RuntimeException("Niveau non trouvé"));
+
+    return matiereRepository.findByNiveauScolaire_Id(niveauId);
+}
+
 }

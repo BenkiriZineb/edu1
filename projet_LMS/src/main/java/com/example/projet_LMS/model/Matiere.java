@@ -2,6 +2,8 @@ package com.example.projet_LMS.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +39,7 @@ public class Matiere {
     private List<Cours> cours;
     @ManyToOne
     @JoinColumn(name = "niveau_id")
+    @JsonBackReference
     private NiveauScolaire niveauScolaire;
 
      @ManyToMany(mappedBy = "matieres") // Doit correspondre au nom de l'attribut côté "Professeur"

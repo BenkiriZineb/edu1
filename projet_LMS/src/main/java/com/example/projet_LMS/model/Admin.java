@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Admin extends Utilisateur {
 
     // Champ spécifique à l'admin

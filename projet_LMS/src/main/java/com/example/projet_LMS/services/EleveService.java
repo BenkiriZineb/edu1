@@ -25,7 +25,7 @@ public interface EleveService {
     Eleve getEleveByName(String name);
 
     Optional<Eleve> findById(Long id);
-
     
-    
+    // Nouvelle méthode pour créer un élève avec niveau scolaire
+    Eleve createEleveWithNiveauScolaire(com.example.projet_LMS.model.InscriptionEleveDTO inscriptionDTO);
 }

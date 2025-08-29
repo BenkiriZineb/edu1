@@ -2,6 +2,8 @@ package com.example.projet_LMS.model;
 import java.util.List;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +31,7 @@ public class NiveauScolaire {
     private String classe;
     private String filiere;
     @OneToMany(mappedBy = "niveauScolaire")
+    @JsonManagedReference
     private List<Matiere> matieres; // Association avec Matiere
      
    @OneToMany(mappedBy = "niveauScolaireObj")
