@@ -1,0 +1,292 @@
+<div class="profile-container">
+  <!-- Messages de notification -->
+  <div class="notification-container" *ngIf="showSuccessMessage || showErrorMessage">
+    <div class="notification" [class.success]="showSuccessMessage" [class.error]="showErrorMessage">
+      <i class="fas" [class.fa-check-circle]="showSuccessMessage" [class.fa-exclamation-circle]="showErrorMessage"></i>
+      <span>{{ messageText }}</span>
+      <button class="close-notification" (click)="showSuccessMessage = false; showErrorMessage = false">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bouton de retour -->
+  <div class="back-button-container">
+    <button class="btn-back" (click)="retourDashboard()">
+      <i class="fas fa-arrow-left"></i>
+      Retour au Dashboard
+    </button>
+  </div>
+
+  <!-- Header du profil avec statistiques -->
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <div class="avatar-placeholder">
+        <span class="avatar-text">{{ getInitials() }}</span>
+      </div>
+      <button class="change-photo-btn" (click)="changePhoto()" title="Changer la photo">
+        <i class="fas fa-camera"></i>
+      </button>
+    </div>
+
+    <div class="profile-info">
+      <h1 class="profile-name">{{ eleve?.prenom }} {{ eleve?.nom }}</h1>
+      <p class="profile-email">{{ eleve?.email }}</p>
+      <div class="profile-status">
+        <span class="status-badge active">
+          <i class="fas fa-circle"></i>
+          Actif
+        </span>
+      </div>
+    </div>
+
+    <!-- Statistiques du profil -->
+    <div class="profile-stats">
+      <div class="stat-item">
+        <div class="stat-value" [style.color]="getProfileCompletionColor()">
+          {{ profileStats.completionPercentage }}%
+        </div>
+        <div class="stat-label">Complétude</div>
+        <div class="stat-text">{{ getProfileCompletionText() }}</div>
+      </div>
+      
+      <div class="stat-item">
+        <div class="stat-value">{{ profileStats.totalCourses }}</div>
+        <div class="stat-label">Cours</div>
+      </div>
+      
+      <div class="stat-item">
+        <div class="stat-value">{{ profileStats.averageGrade }}/100</div>
+        <div class="stat-label">Moyenne</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barre de progression du profil -->
+  <div class="profile-progress">
+    <div class="progress-bar">
+      <div class="progress-fill" 
+           [style.width.%]="profileStats.completionPercentage"
+           [style.background-color]="getProfileCompletionColor()"></div>
+    </div>
+    <div class="progress-text">
+      Profil complété à {{ profileStats.completionPercentage }}%
+    </div>
+  </div>
+
+  <!-- Navigation des onglets -->
+  <div class="profile-tabs">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'info'"
+      (click)="setActiveTab('info')">
+      <i class="fas fa-user"></i>
+      Informations
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'academic'"
+      (click)="setActiveTab('academic')">
+      <i class="fas fa-graduation-cap"></i>
+      Scolarité
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'courses'"
+      (click)="setActiveTab('courses')">
+      <i class="fas fa-book"></i>
+      Cours
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'achievements'"
+      (click)="setActiveTab('achievements')">
+      <i class="fas fa-trophy"></i>
+      Réalisations
+    </button>
+  </div>
+
+  <!-- Contenu des onglets -->
+  <div class="tab-content">
+    
+    <!-- Onglet Informations -->
+    <div *ngIf="activeTab === 'info'" class="tab-panel">
+      <div class="info-section">
+        <div class="section-header">
+          <h3><i class="fas fa-user-circle"></i> Informations personnelles</h3>
+          <div class="section-actions">
+            <button *ngIf="!isEditing" class="btn-edit" (click)="toggleEdit()">
+              <i class="fas fa-edit"></i> Modifier
+            </button>
+            <button *ngIf="isEditing" class="btn-save" (click)="saveProfile()" [disabled]="isLoading">
+              <i class="fas fa-save"></i> {{ isLoading ? 'Sauvegarde...' : 'Sauvegarder' }}
+            </button>
+            <button *ngIf="isEditing" class="btn-cancel" (click)="cancelEdit()">
+              <i class="fas fa-times"></i> Annuler
+            </button>
+          </div>
+        </div>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <label><i class="fas fa-user"></i> Nom</label>
+            <input type="text" [(ngModel)]="eleve!.nom" placeholder="Nom" [readonly]="!isEditing">
+          </div>
+          <div class="info-item">
+            <label><i class="fas fa-user"></i> Prénom</label>
+            <input type="text" [(ngModel)]="eleve!.prenom" placeholder="Prénom" [readonly]="!isEditing">
+          </div>
+          <div class="info-item">
+            <label><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" [(ngModel)]="eleve!.email" placeholder="Email" [readonly]="!isEditing">
+          </div>
+          <div class="info-item">
+            <label><i class="fas fa-calendar"></i> Date de naissance</label>
+            <input type="date" [(ngModel)]="eleve!.datedenaissance" [readonly]="!isEditing">
+          </div>
+          <div class="info-item">
+            <label><i class="fas fa-venus-mars"></i> Sexe</label>
+            <input type="text" [(ngModel)]="eleve!.sexe" placeholder="Sexe" [readonly]="!isEditing">
+          </div>
+          <div class="info-item">
+            <label><i class="fas fa-map-marker-alt"></i> Adresse</label>
+            <input type="text" [(ngModel)]="eleve!.adresse" placeholder="Adresse" [readonly]="!isEditing">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Onglet Scolarité -->
+    <div *ngIf="activeTab === 'academic'" class="tab-panel">
+      <div class="academic-section">
+        <h3><i class="fas fa-graduation-cap"></i> Informations scolaires</h3>
+        <div class="academic-grid">
+          <div class="academic-card">
+            <div class="academic-icon">
+              <i class="fas fa-school"></i>
+            </div>
+            <div class="academic-details">
+              <label>Niveau scolaire</label>
+              <p class="academic-value">{{ eleve?.niveauScolaire || 'Non défini' }}</p>
+            </div>
+          </div>
+          
+          <div class="academic-card">
+            <div class="academic-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="academic-details">
+              <label>Niveau d'étude</label>
+              <p class="academic-value">{{ eleve?.niveauEtude || 'Non défini' }}</p>
+            </div>
+          </div>
+          
+          <div class="academic-card">
+            <div class="academic-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="academic-details">
+              <label>Parent</label>
+              <p class="academic-value">{{ (eleve?.parentId ?? 0) > 0 ? 'ID: ' + eleve?.parentId : 'Non défini' }}</p>
+            </div>
+          </div>
+          
+          <div class="academic-card">
+            <div class="academic-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="academic-details">
+              <label>Dernière mise à jour</label>
+              <p class="academic-value">{{ profileStats.lastUpdated | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Onglet Cours -->
+    <div *ngIf="activeTab === 'courses'" class="tab-panel">
+      <div class="courses-section">
+        <h3><i class="fas fa-book-open"></i> Mes cours</h3>
+        <div class="courses-grid" *ngIf="eleve?.niveau; else noCourses">
+          <div class="course-card">
+            <div class="course-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <div class="course-info">
+              <h4>Niveau {{ eleve?.niveau }}</h4>
+              <p>Classe {{ eleve?.classe || 'Non définie' }}</p>
+              <div class="course-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+                <span>75% complété</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noCourses>
+          <div class="no-courses">
+            <i class="fas fa-book-open"></i>
+            <p>Aucun cours assigné pour le moment</p>
+            <small>Vos cours apparaîtront ici une fois qu'ils seront assignés par vos professeurs.</small>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Nouvel onglet Réalisations -->
+    <div *ngIf="activeTab === 'achievements'" class="tab-panel">
+      <div class="achievements-section">
+        <h3><i class="fas fa-trophy"></i> Mes réalisations</h3>
+        <div class="achievements-grid">
+          <div class="achievement-card completed">
+            <div class="achievement-icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <div class="achievement-info">
+              <h4>Profil complet</h4>
+              <p>Votre profil est complété à {{ profileStats.completionPercentage }}%</p>
+            </div>
+            <div class="achievement-badge">
+              <i class="fas fa-check"></i>
+            </div>
+          </div>
+          
+          <div class="achievement-card" [class.completed]="(eleve?.niveauScolaire ?? '') !== '' && eleve?.niveauScolaire !== 'Non défini'">
+            <div class="achievement-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="achievement-info">
+              <h4>Niveau scolaire défini</h4>
+              <p>Votre niveau scolaire est configuré</p>
+            </div>
+            <div class="achievement-badge">
+              <i class="fas" [class.fa-check]="(eleve?.niveauScolaire ?? '') !== '' && eleve?.niveauScolaire !== 'Non défini'" [class.fa-clock]="!((eleve?.niveauScolaire ?? '') !== '' && eleve?.niveauScolaire !== 'Non défini')"></i>
+            </div>
+          </div>
+          
+          <div class="achievement-card" [class.completed]="(eleve?.parentId ?? 0) > 0">
+            <div class="achievement-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="achievement-info">
+              <h4>Parent associé</h4>
+              <p>Votre compte est lié à celui de vos parents</p>
+            </div>
+            <div class="achievement-badge">
+              <i class="fas" [class.fa-check]="(eleve?.parentId ?? 0) > 0" [class.fa-clock]="!((eleve?.parentId ?? 0) > 0)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicateur de modifications non sauvegardées -->
+  <div class="unsaved-changes" *ngIf="hasUnsavedChanges && isEditing">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>Vous avez des modifications non sauvegardées</span>
+  </div>
+</div>
+

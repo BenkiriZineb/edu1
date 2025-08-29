@@ -1,0 +1,209 @@
+<div class="subscription-container">
+  <div class="subscription-header">
+    <h1>Plans d'Abonnement</h1>
+    <p>Choisissez le plan qui correspond le mieux à vos besoins éducatifs</p>
+  </div>
+
+  <!-- Plans d'abonnement -->
+  <div class="plans-container">
+    <!-- Plan Gratuit -->
+    <div class="plan-card free-plan">
+      <div class="plan-header">
+        <div class="plan-icon">🎓</div>
+        <h3>Plan Gratuit</h3>
+        <div class="plan-price">
+          <span class="price-amount">0 DH</span>
+          <span class="price-period">/mois</span>
+        </div>
+      </div>
+      
+      <div class="plan-features">
+        <ul>
+          <li>✅ Accès aux cours de base</li>
+          <li>✅ Support communautaire</li>
+          <li>✅ 5 cours par mois</li>
+          <li>✅ Accès limité aux ressources</li>
+          <li>❌ Pas de support premium</li>
+          <li>❌ Pas de certificats</li>
+        </ul>
+      </div>
+      
+      <div class="plan-actions">
+        <button class="btn-plan btn-free" (click)="selectPlan('free')">
+          Commencer gratuitement
+        </button>
+      </div>
+    </div>
+
+    <!-- Plan Étudiant -->
+    <div class="plan-card student-plan">
+      <div class="plan-badge">Populaire</div>
+      <div class="plan-header">
+        <div class="plan-icon">👨‍🎓</div>
+        <h3>Plan Étudiant</h3>
+        <div class="plan-price">
+          <span class="price-amount">99 DH</span>
+          <span class="price-period">/mois</span>
+        </div>
+        <div class="plan-savings">Économisez 20% avec l'abonnement annuel</div>
+      </div>
+      
+      <div class="plan-features">
+        <ul>
+          <li>✅ Accès illimité aux cours</li>
+          <li>✅ Support prioritaire</li>
+          <li>✅ Ressources exclusives</li>
+          <li>✅ Certificats de fin de cours</li>
+          <li>✅ Suivi de progression</li>
+          <li>✅ Accès mobile illimité</li>
+          <li>✅ Tutorat en groupe (2h/mois)</li>
+        </ul>
+      </div>
+      
+      <div class="plan-actions">
+        <button class="btn-plan btn-student" (click)="selectPlan('student')">
+          Choisir ce plan
+        </button>
+        <div class="plan-details">
+          <span class="annual-price">Abonnement annuel: 949 DH</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plan Famille -->
+    <div class="plan-card family-plan">
+      <div class="plan-header">
+        <div class="plan-icon">👨‍👩‍👧‍👦</div>
+        <h3>Plan Famille</h3>
+        <div class="plan-price">
+          <span class="price-amount">199 DH</span>
+          <span class="price-period">/mois</span>
+        </div>
+        <div class="plan-savings">Économisez 25% avec l'abonnement annuel</div>
+      </div>
+      
+      <div class="plan-features">
+        <ul>
+          <li>✅ Jusqu'à 4 comptes enfants</li>
+          <li>✅ Tous les avantages du plan étudiant</li>
+          <li>✅ Tableau de bord parent</li>
+          <li>✅ Rapports de progression</li>
+          <li>✅ Communication avec les enseignants</li>
+          <li>✅ Accès aux ressources familiales</li>
+          <li>✅ Support dédié famille</li>
+        </ul>
+      </div>
+      
+      <div class="plan-actions">
+        <button class="btn-plan btn-family" (click)="selectPlan('family')">
+          Choisir ce plan
+        </button>
+        <div class="plan-details">
+          <span class="annual-price">Abonnement annuel: 1,789 DH</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plan Premium -->
+    <div class="plan-card premium-plan">
+      <div class="plan-badge premium">Premium</div>
+      <div class="plan-header">
+        <div class="plan-icon">⭐</div>
+        <h3>Plan Premium</h3>
+        <div class="plan-price">
+          <span class="price-amount">299 DH</span>
+          <span class="price-period">/mois</span>
+        </div>
+        <div class="plan-savings">Économisez 30% avec l'abonnement annuel</div>
+      </div>
+      
+      <div class="plan-features">
+        <ul>
+          <li>✅ Tous les avantages du plan famille</li>
+          <li>✅ Cours particuliers (4h/mois)</li>
+          <li>✅ Accès aux examens blancs</li>
+          <li>✅ Bibliothèque numérique complète</li>
+          <li>✅ Support 24/7</li>
+          <li>✅ Accès aux événements exclusifs</li>
+          <li>✅ Consultation avec des experts</li>
+        </ul>
+      </div>
+      
+      <div class="plan-actions">
+        <button class="btn-plan btn-premium" (click)="selectPlan('premium')">
+          Choisir ce plan
+        </button>
+        <div class="plan-details">
+          <span class="annual-price">Abonnement annuel: 2,509 DH</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section des avantages -->
+  <div class="benefits-section">
+    <h2>Pourquoi choisir nos abonnements ?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon">🚀</div>
+        <h4>Apprentissage personnalisé</h4>
+        <p>Contenu adapté à votre niveau et à votre rythme d'apprentissage</p>
+      </div>
+      
+      <div class="benefit-item">
+        <div class="benefit-icon">📱</div>
+        <h4>Accès multi-plateformes</h4>
+        <p>Apprenez sur ordinateur, tablette ou smartphone</p>
+      </div>
+      
+      <div class="benefit-item">
+        <div class="benefit-icon">👨‍🏫</div>
+        <h4>Enseignants qualifiés</h4>
+        <p>Équipe d'enseignants expérimentés et certifiés</p>
+      </div>
+      
+      <div class="benefit-item">
+        <div class="benefit-icon">📊</div>
+        <h4>Suivi de progression</h4>
+        <p>Visualisez vos progrès et vos résultats en temps réel</p>
+      </div>
+      
+      <div class="benefit-item">
+        <div class="benefit-icon">🎯</div>
+        <h4>Objectifs personnalisés</h4>
+        <p>Définissez et atteignez vos objectifs d'apprentissage</p>
+      </div>
+      
+      <div class="benefit-item">
+        <div class="benefit-icon">🔒</div>
+        <h4>Sécurité garantie</h4>
+        <p>Vos données et votre progression sont protégées</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <h2>Questions fréquentes</h2>
+    <div class="faq-container">
+      <div class="faq-item" *ngFor="let faq of faqs; let i = index">
+        <div class="faq-question" (click)="toggleFaq(i)">
+          <span>{{ faq.question }}</span>
+          <span class="faq-toggle" [class.active]="faq.isOpen">+</span>
+        </div>
+        <div class="faq-answer" [class.active]="faq.isOpen">
+          {{ faq.answer }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="cta-section">
+    <h2>Prêt à commencer votre apprentissage ?</h2>
+    <p>Rejoignez des milliers d'étudiants qui ont déjà transformé leur éducation</p>
+    <button class="btn-cta" (click)="scrollToPlans()">
+      Voir les plans
+    </button>
+  </div>
+</div> 

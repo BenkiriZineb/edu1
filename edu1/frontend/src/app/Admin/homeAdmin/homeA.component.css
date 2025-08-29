@@ -1,0 +1,85 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.content-container {
+  padding: 20px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.btn-add {
+  padding: 8px 12px;
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-add:hover { background-color: #0055aa; }
+
+.search-filter-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.search-filter-section input,
+.search-filter-section select {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th { cursor: pointer; background-color: #f0f0f0; }
+
+.status-badge.statut-actif { color: green; font-weight: bold; }
+.status-badge.statut-inactif { color: red; font-weight: bold; }
+.status-badge.statut-attente { color: orange; font-weight: bold; }
+.status-badge.statut-suspendu { color: darkred; font-weight: bold; }
+
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #003366;
+  color: white;
+  cursor: pointer;
+}
+.pagination button:disabled { background-color: #aaa; cursor: not-allowed; }
+
+.error-message { color: red; font-weight: bold; margin-bottom: 10px; }
+.loading { font-style: italic; color: #555; }
+.no-results { text-align: center; margin-top: 10px; font-style: italic; }

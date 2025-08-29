@@ -1,0 +1,215 @@
+<div class="gestion-notes-container">
+  <div class="header">
+    <h2>📝 Gestion des Notes</h2>
+    <p>Créez, modifiez et gérez les notes des élèves</p>
+  </div>
+
+  <!-- Formulaire d'ajout/modification -->
+  <div class="form-section">
+    <div class="form-header">
+      <h3>{{ isEditing ? '✏️ Modifier la note' : '➕ Ajouter une nouvelle note' }}</h3>
+      <button *ngIf="isEditing" class="btn-secondary" (click)="resetForm()">
+        ❌ Annuler
+      </button>
+    </div>
+
+    <form [formGroup]="noteForm" (ngSubmit)="onSubmit()" class="note-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="eleveId">👨‍🎓 Élève *</label>
+          <select id="eleveId" formControlName="eleveId" class="form-control">
+            <option value="">Sélectionner un élève</option>
+            <option *ngFor="let eleve of eleves" [value]="eleve.id">
+              {{ eleve.prenom }} {{ eleve.nom }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="matiereId">📚 Matière *</label>
+          <select id="matiereId" formControlName="matiereId" class="form-control">
+            <option value="">Sélectionner une matière</option>
+            <option *ngFor="let matiere of matieres" [value]="matiere.id">
+              {{ matiere.nom }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="coursId">📖 Cours *</label>
+          <select id="coursId" formControlName="coursId" class="form-control">
+            <option value="">Sélectionner un cours</option>
+            <option *ngFor="let cours of cours" [value]="cours.id">
+              {{ cours.nom }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="valeur">📊 Note obtenue *</label>
+          <input 
+            type="number" 
+            id="valeur" 
+            formControlName="valeur" 
+            class="form-control"
+            min="0"
+            step="0.5"
+            placeholder="Ex: 15.5">
+        </div>
+
+        <div class="form-group">
+          <label for="noteMaximale">🎯 Note maximale *</label>
+          <input 
+            type="number" 
+            id="noteMaximale" 
+            formControlName="noteMaximale" 
+            class="form-control"
+            min="1"
+            step="0.5"
+            placeholder="Ex: 20">
+        </div>
+
+        <div class="form-group">
+          <label for="type">📋 Type d'évaluation *</label>
+          <select id="type" formControlName="type" class="form-control">
+            <option value="">Sélectionner le type</option>
+            <option *ngFor="let type of typesNote" [value]="type">
+              {{ type }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">📅 Date *</label>
+          <input 
+            type="date" 
+            id="date" 
+            formControlName="date" 
+            class="form-control">
+        </div>
+
+        <div class="form-group full-width">
+          <label for="commentaire">💬 Commentaire</label>
+          <textarea 
+            id="commentaire" 
+            formControlName="commentaire" 
+            class="form-control"
+            rows="3"
+            placeholder="Commentaire sur la note..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn-primary"
+          [disabled]="!noteForm.valid">
+          {{ isEditing ? '💾 Mettre à jour' : '➕ Ajouter' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters-section">
+    <h3>🔍 Filtres</h3>
+    <div class="filters">
+      <div class="filter-group">
+        <label>Filtrer par élève:</label>
+        <select (change)="filtrerParEleve($event.target.value)" class="filter-select">
+          <option value="">Tous les élèves</option>
+          <option *ngFor="let eleve of eleves" [value]="eleve.id">
+            {{ eleve.prenom }} {{ eleve.nom }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Filtrer par matière:</label>
+        <select (change)="filtrerParMatiere($event.target.value)" class="filter-select">
+          <option value="">Toutes les matières</option>
+          <option *ngFor="let matiere of matieres" [value]="matiere.id">
+            {{ matiere.nom }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tableau des notes -->
+  <div class="table-section">
+    <h3>📋 Liste des Notes ({{ notes.length }})</h3>
+    
+    <div *ngIf="notes.length === 0" class="no-notes">
+      <p>📭 Aucune note trouvée</p>
+      <p>Commencez par ajouter une note ci-dessus !</p>
+    </div>
+
+    <div *ngIf="notes.length > 0" class="notes-table">
+      <table>
+        <thead>
+          <tr>
+            <th>👨‍🎓 Élève</th>
+            <th>📚 Matière</th>
+            <th>📖 Cours</th>
+            <th>📊 Note</th>
+            <th>📋 Type</th>
+            <th>📅 Date</th>
+            <th>💬 Commentaire</th>
+            <th>🎯 Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let note of notes" [style.border-left-color]="getCouleurNote(note)">
+            <td>
+              <div class="eleve-info">
+                <strong>{{ getEleveNom(note.eleveId) }}</strong>
+              </div>
+            </td>
+            <td>{{ getMatiereNom(note.matiereId) }}</td>
+            <td>{{ getCoursNom(note.coursId) }}</td>
+            <td>
+              <div class="note-display">
+                <span class="note-value">{{ note.valeur }}/{{ note.noteMaximale }}</span>
+                <span class="note-percentage">({{ calculerPourcentage(note) }}%)</span>
+                <div class="note-appreciation">{{ getAppreciation(note) }}</div>
+              </div>
+            </td>
+            <td>
+              <span class="note-type">{{ note.type }}</span>
+            </td>
+            <td>{{ note.date | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <div class="commentaire" *ngIf="note.commentaire; else noComment">
+                {{ note.commentaire }}
+              </div>
+              <ng-template #noComment>
+                <span class="no-comment">-</span>
+              </ng-template>
+            </td>
+            <td>
+              <div class="actions">
+                <button 
+                  class="btn-edit" 
+                  (click)="editerNote(note)"
+                  title="Modifier">
+                  ✏️
+                </button>
+                <button 
+                  class="btn-delete" 
+                  (click)="supprimerNote(note.id!)"
+                  title="Supprimer">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

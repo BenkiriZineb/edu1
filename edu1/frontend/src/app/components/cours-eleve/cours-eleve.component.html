@@ -1,0 +1,135 @@
+<div class="cours-page" *ngIf="eleve">
+  <!-- Main Content - Page complète sans sidebar -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="page-header">
+      <div class="header-content">
+        <button class="btn-back" (click)="retourDashboard()">
+          ← Retour au Dashboard
+        </button>
+        <h1>📚 Mes Cours</h1>
+        <p>Découvrez et suivez vos cours disponibles</p>
+      </div>
+    </header>
+
+    <!-- Filtres et recherche -->
+    <section class="filters-section">
+      <div class="search-box">
+        <input 
+          type="text" 
+          [(ngModel)]="searchTerm" 
+          placeholder="Rechercher un cours..."
+          class="search-input">
+        <span class="search-icon">🔍</span>
+      </div>
+      
+      <div class="filter-matiere">
+        <select [(ngModel)]="selectedMatiere" class="matiere-select">
+          <option value="">Toutes les matières</option>
+          <option *ngFor="let matiere of matieresUniques" [value]="matiere">
+            {{ matiere }}
+          </option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Statistiques rapides -->
+    <section class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-content">
+          <h3>Total Cours</h3>
+          <div class="stat-value">{{ cours.length }}</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-content">
+          <h3>Matières</h3>
+          <div class="stat-value">{{ matieresUniques.length }}</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-content">
+          <h3>Niveau</h3>
+          <div class="stat-value">{{ eleve.niveau }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cours récents -->
+    <section class="cours-recents" *ngIf="coursRecents.length > 0">
+      <h2>📖 Cours Récents</h2>
+      <div class="cours-grid recent">
+        <div class="cours-card recent" *ngFor="let cours of coursRecents">
+          <div class="cours-header">
+            <h3>{{ cours.titre }}</h3>
+            <span class="matiere-tag">{{ cours.matiere }}</span>
+          </div>
+          <p class="cours-description">{{ cours.description }}</p>
+          <div class="cours-footer">
+            <span class="date">Créé le {{ cours.dateCreation | date:'dd/MM/yyyy' }}</span>
+            <button class="btn-primary" (click)="voirCours(cours.id)">
+              Continuer
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tous les cours -->
+    <section class="tous-cours">
+      <h2>📚 Tous les Cours</h2>
+      
+      <div class="cours-grid" *ngIf="coursFiltres.length > 0">
+        <div class="cours-card" *ngFor="let cours of coursFiltres">
+          <div class="cours-header">
+            <h3>{{ cours.titre }}</h3>
+            <span class="matiere-tag">{{ cours.matiere }}</span>
+          </div>
+          
+          <p class="cours-description">{{ cours.description }}</p>
+          
+          <div class="cours-details">
+            <div class="detail-item">
+              <span class="label">Niveau:</span>
+              <span class="value">{{ cours.niveau }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Documents:</span>
+              <span class="value">{{ cours.documents?.length || 0 }} fichier(s)</span>
+            </div>
+          </div>
+          
+          <div class="cours-footer">
+            <span class="date">{{ cours.dateCreation | date:'dd/MM/yyyy' }}</span>
+            <button class="btn-primary" (click)="voirCours(cours.id)">
+              Commencer
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Message si aucun cours -->
+      <div class="no-cours" *ngIf="coursFiltres.length === 0">
+        <div class="no-cours-icon">📚</div>
+        <h3>Aucun cours trouvé</h3>
+        <p *ngIf="searchTerm || selectedMatiere">
+          Essayez de modifier vos filtres de recherche
+        </p>
+        <p *ngIf="!searchTerm && !selectedMatiere">
+          Aucun cours disponible pour votre niveau actuel
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Loading state -->
+<div class="loading" *ngIf="!eleve">
+  <div class="loading-spinner"></div>
+  <p>Chargement...</p>
+</div>

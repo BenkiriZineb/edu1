@@ -1,0 +1,45 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h3>Menu de navigation</h3>
+  </div>
+  
+  <nav class="sidebar-nav">
+    <ul class="menu-list">
+      <li *ngFor="let item of menuItems" class="menu-item">
+        <!-- Élément principal du menu -->
+        <div class="menu-item-main" 
+             [class.has-children]="item.children"
+             [class.active]="isActive(item.route || '')"
+             (click)="item.children ? toggleSubmenu(item) : navigateTo(item.route || '')">
+          
+          <span class="menu-icon">{{ item.icon }}</span>
+          <span class="menu-label">{{ item.label }}</span>
+          
+          <!-- Flèche pour les sous-menus -->
+          <span class="menu-arrow" *ngIf="item.children">
+            {{ item.isExpanded ? '▼' : '▶' }}
+          </span>
+        </div>
+        
+        <!-- Sous-menus -->
+        <ul class="submenu" *ngIf="item.children && item.isExpanded">
+          <li *ngFor="let child of item.children" 
+              class="submenu-item"
+              [class.active]="isActive(child.route || '')"
+              (click)="navigateTo(child.route || '')">
+            
+            <span class="submenu-icon">{{ child.icon }}</span>
+            <span class="submenu-label">{{ child.label }}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="sidebar-footer">
+    <button class="btn-logout" (click)="navigateTo('/login')">
+      <span class="icon">🚪</span>
+      Déconnexion
+    </button>
+  </div>
+</div>

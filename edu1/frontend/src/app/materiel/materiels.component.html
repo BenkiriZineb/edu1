@@ -1,0 +1,9 @@
+<!-- src/app/materiel/materiels.component.html -->
+<div class="materiel-container">
+  <div *ngFor="let m of materiels" class="materiel-card">
+    <h3>{{ m.titre }}</h3>
+    <p>{{ m.description }}</p>
+    <a href="#" class="lien">{{ m.link }} →</a>
+
+  </div>
+</div>

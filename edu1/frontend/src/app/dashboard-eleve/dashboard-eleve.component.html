@@ -1,0 +1,177 @@
+<div class="dashboard-layout" *ngIf="eleve">
+  <!-- Sidebar -->
+  <app-sidebar [userRole]="'eleve'"></app-sidebar>
+  
+  <!-- Main Content -->
+  <div class="main-dashboard">
+    <!-- Header -->
+    <header class="dashboard-header">
+    <div class="user-info">
+      <div class="avatar">
+        <span>{{ eleve.prenom.charAt(0) }}{{ eleve.nom.charAt(0) }}</span>
+      </div>
+      <div class="user-details">
+        <h2>Bonjour {{ eleve.prenom }} !</h2>
+        <p>{{ eleve.niveauScolaire || eleve.niveau }} - {{ eleve.classe }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- Indicateur de statut backend -->
+      <div class="backend-status" [class]="backendStatus">
+        <span class="status-icon">
+          {{ backendStatus === 'connected' ? '🟢' : backendStatus === 'disconnected' ? '🔴' : '🟡' }}
+        </span>
+        <span class="status-text">
+          {{ backendStatus === 'connected' ? 'Backend connecté' : 
+             backendStatus === 'disconnected' ? 'Mode hors ligne' : 'Connexion...' }}
+        </span>
+      </div>
+      
+      <button class="btn-notification" (click)="marquerNotificationCommeLue(1)">
+        <span class="notification-badge" *ngIf="hasNotificationsNonLues">
+          {{ notificationsNonLues }}
+        </span>
+        🔔
+      </button>
+      <button class="btn-logout" (click)="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- Statistiques principales -->
+  <section class="stats-section">
+    <div class="stat-card main-stat">
+      <h3>Moyenne Générale</h3>
+      <div class="stat-value" [style.color]="getCouleurNote(createTempNote(moyenneGenerale))">
+        {{ moyenneGenerale }}/20
+      </div>
+      <p>{{ notes.length }} notes</p>
+    </div>
+    <div class="stat-card">
+      <h3>Matières</h3>
+      <div class="stat-value">{{ matieres.length }}</div>
+      <p>en cours</p>
+    </div>
+    <div class="stat-card">
+      <h3>Cours</h3>
+      <div class="stat-value">{{ cours.length }}</div>
+      <p>disponibles</p>
+    </div>
+    <div class="stat-card">
+      <h3>Quiz</h3>
+      <div class="stat-value">{{ quiz.length }}</div>
+      <p>à faire</p>
+    </div>
+  </section>
+
+  <!-- Contenu principal -->
+  <div class="main-content">
+    <!-- Matières et notes -->
+    <section class="matieres-section">
+      <h3>Mes Matières</h3>
+      <div class="matieres-grid">
+        <div class="matiere-card" *ngFor="let matiere of matieres" 
+             [style.border-left-color]="matiere.couleur">
+          <div class="matiere-header">
+            <h4>{{ matiere.nom }}</h4>
+            <span class="enseignant">{{ matiere.enseignant }}</span>
+          </div>
+          <div class="matiere-content">
+            <p>{{ matiere.description }}</p>
+            <div class="moyenne-matiere">
+              <span class="label">Moyenne :</span>
+                          <span class="note" [style.color]="getCouleurNote(createTempNote(getMoyenneMatiere(matiere.nom)))">
+              {{ getMoyenneMatiere(matiere.nom) }}/20
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cours récents -->
+    <section class="cours-section">
+      <h3>Cours Récents</h3>
+      <div class="cours-list">
+        <div class="cours-card" *ngFor="let cours of coursRecents">
+          <div class="cours-header">
+            <h4>{{ cours.titre }}</h4>
+            <span class="matiere-tag">{{ cours.matiere }}</span>
+          </div>
+          <p>{{ cours.description }}</p>
+          <div class="cours-footer">
+            <span class="date">{{ cours.dateCreation | date:'dd/MM/yyyy' }}</span>
+            <button class="btn-primary">Voir le cours</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notes récentes -->
+    <section class="notes-section">
+      <h3>Notes Récentes</h3>
+      <div class="notes-list">
+        <div class="note-card" *ngFor="let note of notesRecentes">
+          <div class="note-header">
+            <span class="matiere">{{ getMatiereNom(note.matiereId) }}</span>
+            <span class="note-value" [style.color]="getCouleurNote(note)">
+              {{ note.valeur }}/{{ note.noteMaximale }}
+            </span>
+          </div>
+          <p class="commentaire" *ngIf="note.commentaire">{{ note.commentaire }}</p>
+          <span class="date">{{ note.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz disponibles -->
+    <section class="quiz-section">
+      <h3>Quiz Disponibles</h3>
+      <div class="quiz-list">
+        <div class="quiz-card" *ngFor="let q of quiz">
+          <div class="quiz-header">
+            <h4>{{ q.titre }}</h4>
+            <span class="matiere-tag">{{ q.matiere }}</span>
+          </div>
+          <div class="quiz-info">
+            <span>{{ q.questions.length }} questions</span>
+            <span>{{ q.duree }} min</span>
+          </div>
+          <button class="btn-primary">Commencer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lien vers Mon Profil -->
+    <section class="profile-link-section">
+      <div class="profile-link-container">
+        <h3>Mon Profil</h3>
+        <p>Gérez vos informations personnelles et scolaires</p>
+        <button class="btn-profile" (click)="allerVersProfil()">
+          <i class="fas fa-user-circle"></i>
+          Voir mon profil complet
+        </button>
+      </div>
+    </section>
+
+    <!-- Messages -->
+    <section class="messages-section">
+      <h3>Messages</h3>
+      <div class="messages-list">
+        <div class="message-card" *ngFor="let message of messages" 
+             [class.unread]="!message.lu">
+          <div class="message-header">
+            <span class="expediteur">{{ message.expediteur }}</span>
+            <span class="date">{{ message.date | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <h4>{{ message.sujet }}</h4>
+          <p>{{ message.contenu }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="!eleve">
+  Chargement...
+</div> 

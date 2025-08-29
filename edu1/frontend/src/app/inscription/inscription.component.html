@@ -1,0 +1,1013 @@
+<div class="inscription-container">
+  <div class="inscription-header">
+    <h1>Inscription</h1>
+    <p>Rejoignez notre plateforme éducative</p>
+  </div>
+
+  <!-- Messages d'erreur et de succès -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+      <strong>Erreur :</strong> {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="closeMessage('error')">×</button>
+    </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+      <strong>Succès :</strong> {{ successMessage }}
+    <button type="button" class="btn-close" (click)="closeMessage('success')">×</button>
+    </div>
+
+  <!-- Onglets de sélection des rôles -->
+  <div class="role-tabs">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeRole === 'ELEVE'"
+      (click)="setActiveRole('ELEVE')">
+      <span class="tab-icon">👨‍🎓</span>
+      Élève
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeRole === 'PARENT'"
+      (click)="setActiveRole('PARENT')">
+      <span class="tab-icon">👨‍👩‍👧‍👦</span>
+      Parent
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeRole === 'PROFESSEUR'"
+      (click)="setActiveRole('PROFESSEUR')">
+      <span class="tab-icon">👨‍🏫</span>
+      Enseignant
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeRole === 'ADMIN'"
+      (click)="setActiveRole('ADMIN')">
+      <span class="tab-icon">👨‍💼</span>
+      Administrateur
+    </button>
+  </div>
+
+  <!-- Formulaire Élève -->
+  <div *ngIf="activeRole === 'ELEVE'" class="form-container">
+      <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate class="inscription-form">
+        <h2>Inscription Élève</h2>
+
+  <!-- Champs communs -->
+        <div class="form-row">
+  <div class="form-group">
+            <label for="nom">Nom *</label>
+    <input 
+      type="text" 
+      id="nom"
+      name="nom" 
+      [(ngModel)]="utilisateur.nom" 
+      #nom="ngModel"
+      required
+      class="form-control"
+      [class.is-invalid]="nom.invalid && nom.touched">
+          <div *ngIf="nom.invalid && nom.touched" class="invalid-feedback">
+        Le nom est requis.
+      </div>
+  </div>
+  
+  <div class="form-group">
+            <label for="prenom">Prénom *</label>
+    <input 
+      type="text" 
+      id="prenom"
+      name="prenom" 
+      [(ngModel)]="utilisateur.prenom" 
+      #prenom="ngModel"
+      required
+      class="form-control"
+      [class.is-invalid]="prenom.invalid && prenom.touched">
+          <div *ngIf="prenom.invalid && prenom.touched" class="invalid-feedback">
+        Le prénom est requis.
+      </div>
+  </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            [(ngModel)]="utilisateur.email" 
+            #email="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="email.invalid && email.touched">
+          <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+            L'email est requis et doit être valide.
+              </div>
+          </div>
+          
+        <div class="form-group">
+          <label for="mdp">Mot de passe *</label>
+          <input 
+            type="password" 
+            id="mdp"
+            name="mdp" 
+            [(ngModel)]="utilisateur.mdp" 
+            #mdp="ngModel"
+            required
+            minlength="6"
+            class="form-control"
+            [class.is-invalid]="mdp.invalid && mdp.touched">
+          <div *ngIf="mdp.invalid && mdp.touched" class="invalid-feedback">
+            Le mot de passe doit contenir au moins 6 caractères.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+          <div class="form-group">
+            <label for="sexe">Sexe *</label>
+            <select 
+              id="sexe"
+              name="sexe" 
+              [(ngModel)]="utilisateur.sexe" 
+              #sexe="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="sexe.invalid && sexe.touched">
+            <option value="">Sélectionnez...</option>
+            <option *ngFor="let sex of sexes" [value]="sex.value">{{ sex.label }}</option>
+            </select>
+          <div *ngIf="sexe.invalid && sexe.touched" class="invalid-feedback">
+            Le sexe est requis.
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label for="datedenaissance">Date de naissance *</label>
+            <input 
+            type="date" 
+            id="datedenaissance"
+            name="datedenaissance" 
+            [(ngModel)]="utilisateur.datedenaissance" 
+            #datedenaissance="ngModel"
+              required
+              class="form-control"
+            [class.is-invalid]="datedenaissance.invalid && datedenaissance.touched">
+          <div *ngIf="datedenaissance.invalid && datedenaissance.touched" class="invalid-feedback">
+            La date de naissance est requise.
+  </div>
+          </div>
+        </div>
+
+          <div class="form-group">
+        <label for="adresse">Adresse *</label>
+        <textarea 
+          id="adresse"
+          name="adresse" 
+          [(ngModel)]="utilisateur.adresse" 
+          #adresse="ngModel"
+      required
+          rows="3"
+      class="form-control"
+          [class.is-invalid]="adresse.invalid && adresse.touched"
+          placeholder="Votre adresse complète"></textarea>
+        <div *ngIf="adresse.invalid && adresse.touched" class="invalid-feedback">
+          L'adresse est requise.
+      </div>
+  </div>
+  
+      <!-- Champs spécifiques à l'élève -->
+      <div class="form-row">
+  <div class="form-group">
+            <label for="niveauScolaire">Niveau scolaire *</label>
+            <select 
+              id="niveauScolaire"
+              name="niveauScolaire" 
+              [(ngModel)]="eleveData.niveauScolaire" 
+              #niveauScolaire="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="niveauScolaire.invalid && niveauScolaire.touched">
+            <option value="">Sélectionnez votre niveau scolaire...</option>
+            
+            <!-- Préscolaire -->
+            <optgroup label="🏫 Préscolaire">
+              <option value="crèche">Crèche</option>
+              <option value="maternelle petite section">Maternelle Petite Section</option>
+              <option value="maternelle moyenne section">Maternelle Moyenne Section</option>
+              <option value="maternelle grande section">Maternelle Grande Section</option>
+            </optgroup>
+            
+            <!-- Primaire -->
+            <optgroup label="📚 Primaire">
+              <option value="CP (Cours Préparatoire)">CP (Cours Préparatoire)</option>
+              <option value="CE1 (Cours Élémentaire 1ère année)">CE1 (Cours Élémentaire 1ère année)</option>
+              <option value="CE2 (Cours Élémentaire 2ème année)">CE2 (Cours Élémentaire 2ème année)</option>
+              <option value="CM1 (Cours Moyen 1ère année)">CM1 (Cours Moyen 1ère année)</option>
+              <option value="CM2 (Cours Moyen 2ème année)">CM2 (Cours Moyen 2ème année)</option>
+            </optgroup>
+            
+            <!-- Collège -->
+            <optgroup label="🏫 Collège">
+              <option value="6ème (Sixième)">6ème (Sixième)</option>
+              <option value="5ème (Cinquième)">5ème (Cinquième)</option>
+              <option value="4ème (Quatrième)">4ème (Quatrième)</option>
+              <option value="3ème (Troisième)">3ème (Troisième)</option>
+            </optgroup>
+            
+            <!-- Lycée -->
+            <optgroup label="🎓 Lycée">
+              <option value="2nde (Seconde)">2nde (Seconde)</option>
+              <option value="1ère (Première)">1ère (Première)</option>
+              <option value="Terminale">Terminale</option>
+            </optgroup>
+            
+            <!-- Supérieur -->
+            <optgroup label="🎓 Supérieur">
+              <option value="Bac +1">Bac +1</option>
+              <option value="Bac +2 (DUT, BTS)">Bac +2 (DUT, BTS)</option>
+              <option value="Bac +3 (Licence)">Bac +3 (Licence)</option>
+              <option value="Bac +4 (Master 1)">Bac +4 (Master 1)</option>
+              <option value="Bac +5 (Master 2)">Bac +5 (Master 2)</option>
+              <option value="Bac +6 (Doctorat)">Bac +6 (Doctorat)</option>
+              <option value="Bac +8 (HDR)">Bac +8 (HDR)</option>
+            </optgroup>
+            </select>
+          <div *ngIf="niveauScolaire.invalid && niveauScolaire.touched" class="invalid-feedback">
+                Le niveau scolaire est requis.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="nationalite">Nationalité *</label>
+          <input 
+            type="text" 
+            id="nationalite"
+            name="nationalite" 
+            [(ngModel)]="eleveData.nationalite" 
+            #nationalite="ngModel"
+            required 
+            class="form-control"
+            [class.is-invalid]="nationalite.invalid && nationalite.touched">
+          <div *ngIf="nationalite.invalid && nationalite.touched" class="invalid-feedback">
+            La nationalité est requise.
+            </div>
+        </div>
+        </div>
+
+        <div class="form-group">
+        <label for="tele">Téléphone *</label>
+    <input 
+          type="tel" 
+          id="tele"
+          name="tele" 
+          [(ngModel)]="eleveData.tele" 
+          #tele="ngModel"
+      required
+      class="form-control"
+          [class.is-invalid]="tele.invalid && tele.touched"
+          placeholder="Votre numéro de téléphone">
+        <div *ngIf="tele.invalid && tele.touched" class="invalid-feedback">
+          Le téléphone est requis.
+            </div>
+        </div>
+
+        <!-- Section Parent -->
+        <div class="parent-section">
+          <h3>Informations du parent</h3>
+        
+          <div class="parent-choice">
+          <label>
+            <input 
+              type="radio" 
+              name="parentChoice" 
+              [value]="'existing'"
+              [(ngModel)]="parentChoice"
+              (change)="setParentChoice('existing')">
+            Parent existant
+          </label>
+          <label>
+            <input 
+              type="radio" 
+              name="parentChoice" 
+              [value]="'new'"
+              [(ngModel)]="parentChoice"
+              (change)="setParentChoice('new')">
+            Nouveau parent
+          </label>
+          </div>
+
+        <div *ngIf="parentChoice === 'existing'">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="parentEmail">Email du parent *</label>
+                <input 
+                  type="email" 
+                  id="parentEmail"
+                  name="parentEmail" 
+                  [(ngModel)]="eleveData.parentEmail" 
+                #parentEmail="ngModel"
+                  required
+                  class="form-control"
+                [class.is-invalid]="parentEmail.invalid && parentEmail.touched">
+              <div *ngIf="parentEmail.invalid && parentEmail.touched" class="invalid-feedback">
+                L'email du parent est requis.
+              </div>
+              </div>
+            </div>
+          </div>
+
+        <div *ngIf="parentChoice === 'new'">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="newParentNom">Nom du parent *</label>
+                <input 
+                  type="text" 
+                  id="newParentNom"
+                  name="newParentNom" 
+                  [(ngModel)]="eleveData.newParentNom" 
+                #newParentNom="ngModel"
+                  required
+                  class="form-control"
+                [class.is-invalid]="newParentNom.invalid && newParentNom.touched">
+              <div *ngIf="newParentNom.invalid && newParentNom.touched" class="invalid-feedback">
+                Le nom du parent est requis.
+              </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="newParentPrenom">Prénom du parent *</label>
+                <input 
+                  type="text" 
+                  id="newParentPrenom"
+                  name="newParentPrenom" 
+                  [(ngModel)]="eleveData.newParentPrenom" 
+                #newParentPrenom="ngModel"
+                  required
+                  class="form-control"
+                [class.is-invalid]="newParentPrenom.invalid && newParentPrenom.touched">
+              <div *ngIf="newParentPrenom.invalid && newParentPrenom.touched" class="invalid-feedback">
+                Le prénom du parent est requis.
+              </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="newParentTele">Téléphone du parent *</label>
+                <input 
+                  type="tel" 
+                  id="newParentTele"
+                  name="newParentTele" 
+                  [(ngModel)]="eleveData.newParentTele" 
+                #newParentTele="ngModel"
+                  required
+                  class="form-control"
+                [class.is-invalid]="newParentTele.invalid && newParentTele.touched">
+              <div *ngIf="newParentTele.invalid && newParentTele.touched" class="invalid-feedback">
+                Le téléphone du parent est requis.
+              </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="newParentEmail">Email du parent *</label>
+                <input 
+                  type="email" 
+                  id="newParentEmail"
+                  name="newParentEmail" 
+                  [(ngModel)]="eleveData.newParentEmail" 
+                #newParentEmail="ngModel"
+                  required
+                  class="form-control"
+                [class.is-invalid]="newParentEmail.invalid && newParentEmail.touched">
+              <div *ngIf="newParentEmail.invalid && newParentEmail.touched" class="invalid-feedback">
+                L'email du parent est requis.
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <div class="form-actions">
+          <button 
+            type="submit" 
+          class="btn-submit"
+          [disabled]="!isFormValid() || isLoading"
+          [class.disabled]="!isFormValid()">
+          <span *ngIf="isLoading" class="spinner"></span>
+          {{ isLoading ? 'Création en cours...' : 'Créer mon compte élève' }}
+          </button>
+        
+        <!-- Indicateur de validation -->
+        <div class="validation-status" *ngIf="!isFormValid()">
+          <small class="text-muted">
+            🔍 Formulaire incomplet - Vérifiez tous les champs obligatoires
+          </small>
+        </div>
+        </div>
+      </form>
+    </div>
+
+  <!-- Formulaire Parent -->
+  <div *ngIf="activeRole === 'PARENT'" class="form-container">
+      <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate class="inscription-form">
+        <h2>Inscription Parent</h2>
+        
+        <!-- Champs communs -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input 
+              type="text" 
+              id="nom"
+              name="nom" 
+              [(ngModel)]="utilisateur.nom" 
+              #nom="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="nom.invalid && nom.touched">
+          <div *ngIf="nom.invalid && nom.touched" class="invalid-feedback">
+                Le nom est requis.
+              </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input 
+              type="text" 
+              id="prenom"
+              name="prenom" 
+              [(ngModel)]="utilisateur.prenom" 
+              #prenom="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="prenom.invalid && prenom.touched">
+          <div *ngIf="prenom.invalid && prenom.touched" class="invalid-feedback">
+                Le prénom est requis.
+              </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            [(ngModel)]="utilisateur.email" 
+            #email="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="email.invalid && email.touched">
+          <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+            L'email est requis et doit être valide.
+      </div>
+  </div>
+  
+        <div class="form-group">
+          <label for="mdp">Mot de passe *</label>
+          <input 
+            type="password" 
+            id="mdp"
+            name="mdp" 
+            [(ngModel)]="utilisateur.mdp" 
+            #mdp="ngModel"
+            required
+            minlength="6"
+            class="form-control"
+            [class.is-invalid]="mdp.invalid && mdp.touched">
+          <div *ngIf="mdp.invalid && mdp.touched" class="invalid-feedback">
+            Le mot de passe doit contenir au moins 6 caractères.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+  <div class="form-group">
+            <label for="sexe">Sexe *</label>
+    <select 
+      id="sexe"
+      name="sexe" 
+      [(ngModel)]="utilisateur.sexe" 
+      #sexe="ngModel"
+      required
+      class="form-control"
+      [class.is-invalid]="sexe.invalid && sexe.touched">
+            <option value="">Sélectionnez...</option>
+            <option *ngFor="let sex of sexes" [value]="sex.value">{{ sex.label }}</option>
+    </select>
+          <div *ngIf="sexe.invalid && sexe.touched" class="invalid-feedback">
+            Le sexe est requis.
+          </div>
+  </div>
+  
+  <div class="form-group">
+          <label for="datedenaissance">Date de naissance *</label>
+            <input 
+            type="date" 
+            id="datedenaissance"
+            name="datedenaissance" 
+            [(ngModel)]="utilisateur.datedenaissance" 
+            #datedenaissance="ngModel"
+              required
+              class="form-control"
+            [class.is-invalid]="datedenaissance.invalid && datedenaissance.touched">
+          <div *ngIf="datedenaissance.invalid && datedenaissance.touched" class="invalid-feedback">
+            La date de naissance est requise.
+  </div>
+  </div>
+</div>
+
+  <div class="form-group">
+        <label for="adresse">Adresse *</label>
+        <textarea 
+          id="adresse"
+          name="adresse" 
+          [(ngModel)]="utilisateur.adresse" 
+          #adresse="ngModel"
+      required 
+          rows="3"
+      class="form-control"
+          [class.is-invalid]="adresse.invalid && adresse.touched"
+          placeholder="Votre adresse complète"></textarea>
+        <div *ngIf="adresse.invalid && adresse.touched" class="invalid-feedback">
+          L'adresse est requise.
+      </div>
+  </div>
+      
+      <!-- Champs spécifiques au parent -->
+      <div class="form-row">
+      <div class="form-group">
+            <label for="nbr_enfant">Nombre d'enfants *</label>
+        <input 
+          type="number" 
+          id="nbr_enfant"
+          name="nbr_enfant" 
+          [(ngModel)]="parentData.nbr_enfant" 
+            #nbr_enfant="ngModel"
+          required
+          min="1"
+          class="form-control"
+            [class.is-invalid]="nbr_enfant.invalid && nbr_enfant.touched">
+          <div *ngIf="nbr_enfant.invalid && nbr_enfant.touched" class="invalid-feedback">
+            Le nombre d'enfants est requis (minimum 1).
+      </div>
+        </div>
+
+        <div class="form-group">
+          <label for="nationalite">Nationalité *</label>
+          <input 
+            type="text" 
+            id="nationalite"
+            name="nationalite" 
+            [(ngModel)]="parentData.nationalite" 
+            #nationalite="ngModel"
+            required 
+            class="form-control"
+            [class.is-invalid]="nationalite.invalid && nationalite.touched">
+          <div *ngIf="nationalite.invalid && nationalite.touched" class="invalid-feedback">
+            La nationalité est requise.
+            </div>
+        </div>
+        </div>
+
+        <div class="form-group">
+        <label for="tele">Téléphone *</label>
+          <input 
+          type="tel" 
+          id="tele"
+          name="tele" 
+          [(ngModel)]="parentData.tele" 
+          #tele="ngModel"
+            required
+            class="form-control"
+          [class.is-invalid]="tele.invalid && tele.touched"
+          placeholder="Votre numéro de téléphone">
+        <div *ngIf="tele.invalid && tele.touched" class="invalid-feedback">
+          Le téléphone est requis.
+            </div>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <div class="form-actions">
+          <button 
+            type="submit" 
+          class="btn-submit"
+          [disabled]="!isFormValid() || isLoading">
+          <span *ngIf="isLoading" class="spinner"></span>
+          {{ isLoading ? 'Création en cours...' : 'Créer mon compte parent' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+  <!-- Formulaire Professeur -->
+  <div *ngIf="activeRole === 'PROFESSEUR'" class="form-container">
+      <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate class="inscription-form">
+        <h2>Inscription Enseignant</h2>
+        
+        <!-- Champs communs -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input 
+              type="text" 
+              id="nom"
+              name="nom" 
+              [(ngModel)]="utilisateur.nom" 
+              #nom="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="nom.invalid && nom.touched">
+          <div *ngIf="nom.invalid && nom.touched" class="invalid-feedback">
+                Le nom est requis.
+              </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input 
+              type="text" 
+              id="prenom"
+              name="prenom" 
+              [(ngModel)]="utilisateur.prenom" 
+              #prenom="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="prenom.invalid && prenom.touched">
+          <div *ngIf="prenom.invalid && prenom.touched" class="invalid-feedback">
+                Le prénom est requis.
+              </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            [(ngModel)]="utilisateur.email" 
+            #email="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="email.invalid && email.touched">
+          <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+            L'email est requis et doit être valide.
+              </div>
+          </div>
+          
+        <div class="form-group">
+          <label for="mdp">Mot de passe *</label>
+          <input 
+            type="password" 
+            id="mdp"
+            name="mdp" 
+            [(ngModel)]="utilisateur.mdp" 
+            #mdp="ngModel"
+            required
+            minlength="6"
+            class="form-control"
+            [class.is-invalid]="mdp.invalid && mdp.touched">
+          <div *ngIf="mdp.invalid && mdp.touched" class="invalid-feedback">
+            Le mot de passe doit contenir au moins 6 caractères.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+          <div class="form-group">
+            <label for="sexe">Sexe *</label>
+            <select 
+              id="sexe"
+              name="sexe" 
+              [(ngModel)]="utilisateur.sexe" 
+              #sexe="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="sexe.invalid && sexe.touched">
+            <option value="">Sélectionnez...</option>
+            <option *ngFor="let sex of sexes" [value]="sex.value">{{ sex.label }}</option>
+            </select>
+          <div *ngIf="sexe.invalid && sexe.touched" class="invalid-feedback">
+            Le sexe est requis.
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label for="datedenaissance">Date de naissance *</label>
+            <input 
+            type="date" 
+            id="datedenaissance"
+            name="datedenaissance" 
+            [(ngModel)]="utilisateur.datedenaissance" 
+            #datedenaissance="ngModel"
+              required
+              class="form-control"
+            [class.is-invalid]="datedenaissance.invalid && datedenaissance.touched">
+          <div *ngIf="datedenaissance.invalid && datedenaissance.touched" class="invalid-feedback">
+            La date de naissance est requise.
+          </div>
+        </div>
+          </div>
+      
+      <div class="form-group">
+        <label for="adresse">Adresse *</label>
+        <textarea 
+          id="adresse"
+          name="adresse" 
+          [(ngModel)]="utilisateur.adresse" 
+          #adresse="ngModel"
+              required
+          rows="3"
+              class="form-control"
+          [class.is-invalid]="adresse.invalid && adresse.touched"
+          placeholder="Votre adresse complète"></textarea>
+        <div *ngIf="adresse.invalid && adresse.touched" class="invalid-feedback">
+          L'adresse est requise.
+          </div>
+        </div>
+
+      <!-- Champs spécifiques au professeur -->
+        <div class="form-row">
+          <div class="form-group">
+          <label for="filiere">Filière *</label>
+              <input 
+            type="text" 
+            id="filiere"
+            name="filiere" 
+            [(ngModel)]="professeurData.filiere" 
+            #filiere="ngModel"
+              required
+              class="form-control"
+            [class.is-invalid]="filiere.invalid && filiere.touched"
+            placeholder="Ex: Sciences, Littérature, etc.">
+          <div *ngIf="filiere.invalid && filiere.touched" class="invalid-feedback">
+            La filière est requise.
+            </div>
+        </div>
+          
+          <div class="form-group">
+          <label for="nationalite">Nationalité *</label>
+            <input 
+              type="text" 
+            id="nationalite"
+            name="nationalite" 
+            [(ngModel)]="professeurData.nationalite" 
+            #nationalite="ngModel"
+              required
+              class="form-control"
+            [class.is-invalid]="nationalite.invalid && nationalite.touched">
+          <div *ngIf="nationalite.invalid && nationalite.touched" class="invalid-feedback">
+            La nationalité est requise.
+          </div>
+        </div>
+          </div>
+          
+          <div class="form-group">
+        <label for="tele">Téléphone *</label>
+        <input 
+          type="tel" 
+          id="tele"
+          name="tele" 
+          [(ngModel)]="professeurData.tele" 
+          #tele="ngModel"
+              required 
+              class="form-control"
+          [class.is-invalid]="tele.invalid && tele.touched"
+          placeholder="Votre numéro de téléphone">
+        <div *ngIf="tele.invalid && tele.touched" class="invalid-feedback">
+          Le téléphone est requis.
+      </div>
+        </div>
+
+      <!-- Matières enseignées -->
+        <div class="form-group">
+        <label>Matières enseignées *</label>
+        <div class="matieres-grid">
+          <label class="matiere-checkbox" *ngFor="let matiere of listeMatieres">
+          <input 
+              type="checkbox" 
+              [value]="matiere"
+              (change)="onMatiereChange(matiere, $event)"
+              [checked]="professeurData.matieresEnseignees.includes(matiere)">
+            {{ matiere }}
+          </label>
+            </div>
+        <div *ngIf="!hasSelectedMatieres" class="invalid-feedback">
+          Veuillez sélectionner au moins une matière.
+        </div>
+        </div>
+
+        <!-- Bouton de soumission -->
+        <div class="form-actions">
+          <button 
+            type="submit" 
+          class="btn-submit"
+          [disabled]="!isFormValid() || isLoading">
+          <span *ngIf="isLoading" class="spinner"></span>
+          {{ isLoading ? 'Création en cours...' : 'Créer mon compte enseignant' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+  <!-- Formulaire Admin -->
+  <div *ngIf="activeRole === 'ADMIN'" class="form-container">
+      <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate class="inscription-form">
+        <h2>Inscription Administrateur</h2>
+        
+        <!-- Champs communs -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input 
+              type="text" 
+              id="nom"
+              name="nom" 
+              [(ngModel)]="utilisateur.nom" 
+              #nom="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="nom.invalid && nom.touched">
+          <div *ngIf="nom.invalid && nom.touched" class="invalid-feedback">
+                Le nom est requis.
+              </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input 
+              type="text" 
+              id="prenom"
+              name="prenom" 
+              [(ngModel)]="utilisateur.prenom" 
+              #prenom="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="prenom.invalid && prenom.touched">
+          <div *ngIf="prenom.invalid && prenom.touched" class="invalid-feedback">
+                Le prénom est requis.
+              </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+          <label for="email">Email *</label>
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            [(ngModel)]="utilisateur.email" 
+            #email="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="email.invalid && email.touched">
+          <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+            L'email est requis et doit être valide.
+              </div>
+          </div>
+          
+        <div class="form-group">
+          <label for="mdp">Mot de passe *</label>
+          <input 
+            type="password" 
+            id="mdp"
+            name="mdp" 
+            [(ngModel)]="utilisateur.mdp" 
+            #mdp="ngModel"
+            required
+            minlength="6"
+            class="form-control"
+            [class.is-invalid]="mdp.invalid && mdp.touched">
+          <div *ngIf="mdp.invalid && mdp.touched" class="invalid-feedback">
+            Le mot de passe doit contenir au moins 6 caractères.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+          <div class="form-group">
+            <label for="sexe">Sexe *</label>
+            <select 
+              id="sexe"
+              name="sexe" 
+              [(ngModel)]="utilisateur.sexe" 
+              #sexe="ngModel"
+              required
+              class="form-control"
+              [class.is-invalid]="sexe.invalid && sexe.touched">
+            <option value="">Sélectionnez...</option>
+            <option *ngFor="let sex of sexes" [value]="sex.value">{{ sex.label }}</option>
+            </select>
+          <div *ngIf="sexe.invalid && sexe.touched" class="invalid-feedback">
+            Le sexe est requis.
+          </div>
+        </div>
+
+          <div class="form-group">
+          <label for="datedenaissance">Date de naissance *</label>
+            <input 
+            type="date" 
+            id="datedenaissance"
+            name="datedenaissance" 
+            [(ngModel)]="utilisateur.datedenaissance" 
+            #datedenaissance="ngModel"
+              required
+              class="form-control"
+            [class.is-invalid]="datedenaissance.invalid && datedenaissance.touched">
+          <div *ngIf="datedenaissance.invalid && datedenaissance.touched" class="invalid-feedback">
+            La date de naissance est requise.
+          </div>
+          </div>
+        </div>
+
+          <div class="form-group">
+        <label for="adresse">Adresse *</label>
+        <textarea 
+          id="adresse"
+          name="adresse" 
+          [(ngModel)]="utilisateur.adresse" 
+          #adresse="ngModel"
+              required
+          rows="3"
+              class="form-control"
+          [class.is-invalid]="adresse.invalid && adresse.touched"
+          placeholder="Votre adresse complète"></textarea>
+        <div *ngIf="adresse.invalid && adresse.touched" class="invalid-feedback">
+          L'adresse est requise.
+              </div>
+          </div>
+          
+      <!-- Champs spécifiques à l'admin -->
+      <div class="form-row">
+          <div class="form-group">
+            <label for="niveauAcces">Niveau d'accès *</label>
+          <select 
+            id="niveauAcces"
+            name="niveauAcces" 
+            [(ngModel)]="adminData.niveauAcces" 
+            #niveauAcces="ngModel"
+            required
+            class="form-control"
+            [class.is-invalid]="niveauAcces.invalid && niveauAcces.touched">
+            <option value="">Sélectionnez...</option>
+            <option value="SUPER_ADMIN">Super Administrateur</option>
+            <option value="ADMIN">Administrateur</option>
+            <option value="MODERATEUR">Modérateur</option>
+            </select>
+          <div *ngIf="niveauAcces.invalid && niveauAcces.touched" class="invalid-feedback">
+            Le niveau d'accès est requis.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="nationalite">Nationalité *</label>
+          <input 
+            type="text" 
+            id="nationalite"
+            name="nationalite" 
+            [(ngModel)]="adminData.nationalite" 
+            #nationalite="ngModel"
+            required 
+            class="form-control"
+            [class.is-invalid]="nationalite.invalid && nationalite.touched">
+          <div *ngIf="nationalite.invalid && nationalite.touched" class="invalid-feedback">
+            La nationalité est requise.
+            </div>
+        </div>
+        </div>
+
+        <div class="form-group">
+        <label for="tele">Téléphone *</label>
+          <input 
+          type="tel" 
+          id="tele"
+          name="tele" 
+          [(ngModel)]="adminData.tele" 
+          #tele="ngModel"
+            required
+            class="form-control"
+          [class.is-invalid]="tele.invalid && tele.touched"
+          placeholder="Votre numéro de téléphone">
+        <div *ngIf="tele.invalid && tele.touched" class="invalid-feedback">
+          Le téléphone est requis.
+            </div>
+        </div>
+
+  <!-- Bouton de soumission -->
+  <div class="form-actions">
+    <button 
+      type="submit" 
+          class="btn-submit"
+          [disabled]="!isFormValid() || isLoading">
+          <span *ngIf="isLoading" class="spinner"></span>
+          {{ isLoading ? 'Création en cours...' : 'Créer mon compte administrateur' }}
+    </button>
+  </div>
+</form>
+    </div>
+</div>

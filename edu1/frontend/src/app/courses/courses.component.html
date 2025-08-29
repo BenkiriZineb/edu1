@@ -1,0 +1,175 @@
+<div class="courses-container">
+  <!-- Header -->
+  <div class="courses-header">
+    <div class="header-content">
+      <h1>{{ matiereName }}</h1>
+      <p class="level-info">{{ getLevelName() }}</p>
+    </div>
+    <button class="back-btn" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i>
+      Retour
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="courses-main">
+    <!-- Left Sidebar - List of all courses -->
+    <div class="courses-sidebar">
+      <div class="sidebar-header">
+        <h3>Liste des cours</h3>
+      </div>
+      <div class="cours-list">
+        <div 
+          *ngFor="let cours of getAllCours(); trackBy: trackByCours" 
+          class="cours-item"
+          [class.active]="selectedCours?.id === cours.id"
+          (click)="selectCours(cours)"
+        >
+          <div class="cours-info">
+            <div class="cours-title">{{ cours.titre }}</div>
+            <div class="cours-meta">
+              <span class="cours-duree">{{ cours.duree }}</span>
+              <span class="cours-type">{{ getTypeLabel(cours.type) }}</span>
+            </div>
+          </div>
+          <div class="cours-status" [class]="getStatutClass(cours.statut)">
+            <i [class]="getTypeIcon(cours.type)"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Content Area -->
+    <div class="courses-content">
+      <!-- When a course is selected, show chapters -->
+      <div *ngIf="selectedCours && !selectedChapitre" class="chapters-view">
+        <div class="content-header">
+          <h2>{{ selectedCours.titre }}</h2>
+          <p>{{ selectedCours.description }}</p>
+          <div class="cours-meta-info">
+            <span class="meta-item">
+              <i class="fas fa-clock"></i>
+              {{ selectedCours.duree }}
+            </span>
+            <span class="meta-item">
+              <i [class]="getTypeIcon(selectedCours.type)"></i>
+              {{ getTypeLabel(selectedCours.type) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="chapters-list">
+          <h3>Chapitres de ce cours</h3>
+          <div 
+            *ngFor="let chapitre of getChapitresForSelectedCours(); trackBy: trackByChapitre" 
+            class="chapitre-item"
+            (click)="selectChapitre(chapitre)"
+          >
+            <div class="chapitre-info">
+              <div class="chapitre-title">{{ chapitre.titre }}</div>
+              <div class="chapitre-description">{{ chapitre.description }}</div>
+            </div>
+            <div class="chapitre-arrow">
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- When a chapter is selected, show detailed content -->
+      <div *ngIf="selectedChapitre" class="chapter-detail-view">
+        <div class="content-header">
+          <button class="back-to-cours-btn" (click)="selectedChapitre = null">
+            <i class="fas fa-arrow-left"></i>
+            Retour au cours
+          </button>
+          <h2>{{ selectedChapitre.titre }}</h2>
+          <p>{{ selectedChapitre.description }}</p>
+        </div>
+
+        <!-- Video Section -->
+        <div class="video-section">
+          <div class="video-container">
+            <div class="video-placeholder">
+              <i class="fas fa-play-circle"></i>
+              <p>Vidéo du cours</p>
+              <div class="video-overlay">
+                <p>Cette vidéo est disponible avec un abonnement</p>
+                <button class="subscription-btn">Voir l'abonnement</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Content Tabs -->
+        <div class="course-tabs">
+          <div class="tab-header">
+            <button class="tab-btn active">Tutoriel vidéo</button>
+            <button class="tab-btn">Leçon de texte</button>
+            <button class="tab-btn">Exercices</button>
+            <button class="tab-btn">Tests</button>
+            <button class="tab-btn">Questions</button>
+          </div>
+          
+          <div class="tab-content">
+            <div class="text-lesson">
+              <h3>Contenu de la leçon</h3>
+              <p>Nous commençons à étudier cette matière. Si auparavant nous travaillions principalement avec des concepts de base, maintenant nous allons approfondir nos connaissances...</p>
+              
+              <div class="lesson-sections">
+                <div class="section">
+                  <h4>1. Introduction</h4>
+                  <p>Cette section présente les concepts fondamentaux que nous allons étudier dans ce chapitre.</p>
+                </div>
+                
+                <div class="section">
+                  <h4>2. Développement</h4>
+                  <p>Nous explorons en détail les différents aspects de cette matière avec des exemples concrets.</p>
+                </div>
+                
+                <div class="section">
+                  <h4>3. Applications pratiques</h4>
+                  <p>Découvrez comment appliquer ces connaissances dans des situations réelles.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress and Actions -->
+        <div class="course-actions">
+          <div class="progress-section">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="selectedCours ? getCoursProgression(selectedCours) : 0"></div>
+            </div>
+            <span class="progress-text">{{ selectedCours ? getCoursProgression(selectedCours) : 0 }}% terminé</span>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="action-btn primary">
+              <i class="fas fa-play"></i>
+              Continuer
+            </button>
+            <button class="action-btn secondary">
+              <i class="fas fa-download"></i>
+              Télécharger
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No course selected message -->
+      <div class="no-cours-selected" *ngIf="!selectedCours && !loading">
+        <i class="fas fa-book-open"></i>
+        <h3>Sélectionnez un cours</h3>
+        <p>Choisissez un cours dans la liste à gauche pour commencer votre apprentissage.</p>
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Chargement en cours...</p>
+      </div>
+    </div>
+  </div>
+</div>

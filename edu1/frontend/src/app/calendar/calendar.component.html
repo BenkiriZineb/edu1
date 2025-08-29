@@ -1,0 +1,130 @@
+<div class="calendar-page">
+  <div class="page-header">
+    <h1>Calendrier Scolaire</h1>
+    <p>Sélectionnez un niveau scolaire pour voir le calendrier correspondant</p>
+  </div>
+
+  <div class="levels-container">
+    <!-- Préscolaire -->
+    <div class="level-section">
+      <h2>Préscolaire</h2>
+      <div class="level-buttons">
+        <button class="level-btn" (click)="goToSubjects('ps')">
+          <i class="fas fa-child"></i>
+          <span>Petite Section (PS)</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('ms')">
+          <i class="fas fa-child"></i>
+          <span>Moyenne Section (MS)</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('gs')">
+          <i class="fas fa-child"></i>
+          <span>Grande Section (GS)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- École Primaire -->
+    <div class="level-section">
+      <h2>École Primaire</h2>
+      <div class="level-buttons">
+        <button class="level-btn" (click)="goToSubjects('ci')">
+          <i class="fas fa-graduation-cap"></i>
+          <span>CI</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('cp')">
+          <i class="fas fa-graduation-cap"></i>
+          <span>CP</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('ce1')">
+          <i class="fas fa-graduation-cap"></i>
+          <span>CE1</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('ce2')">
+          <i class="fas fa-graduation-cap"></i>
+          <span>CE2</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('cm1')">
+          <i class="fas fa-graduation-cap"></i>
+          <span>CM1</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('cm2')">
+          <i class="fas fa-graduation-cap"></i>
+          <span>CM2</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collège -->
+    <div class="level-section">
+      <h2>Collège</h2>
+      <div class="level-buttons">
+        <button class="level-btn" (click)="goToSubjects('1ac')">
+          <i class="fas fa-book"></i>
+          <span>1ère année collège</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('2ac')">
+          <i class="fas fa-book"></i>
+          <span>2ème année collège</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('3ac')">
+          <i class="fas fa-book"></i>
+          <span>3ème année collège</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lycée -->
+    <div class="level-section">
+      <h2>Lycée</h2>
+      <div class="level-buttons">
+        <button class="level-btn" (click)="goToSubjects('tc')">
+          <i class="fas fa-users"></i>
+          <span>Tronc commun</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('1bac')">
+          <i class="fas fa-users"></i>
+          <span>1ère année baccalauréat</span>
+        </button>
+        <button class="level-btn" (click)="goToSubjects('2bac')">
+          <i class="fas fa-users"></i>
+          <span>2ème année baccalauréat</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Baccalauréat -->
+    <div class="level-section">
+      <h2>Baccalauréat</h2>
+      <div class="level-buttons">
+        <button class="level-btn" (click)="selectLevel('Bac Général')">
+          <i class="fas fa-certificate"></i>
+          <span>Bac Général</span>
+          <small>Baccalauréat Général</small>
+        </button>
+        <button class="level-btn" (click)="selectLevel('Bac Pro')">
+          <i class="fas fa-certificate"></i>
+          <span>Bac Pro</span>
+          <small>Baccalauréat Professionnel</small>
+        </button>
+        <button class="level-btn" (click)="selectLevel('Bac Tech')">
+          <i class="fas fa-certificate"></i>
+          <span>Bac Tech</span>
+          <small>Baccalauréat Technologique</small>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Affichage du niveau sélectionné -->
+  <div class="selected-level" *ngIf="selectedLevel">
+    <div class="level-info">
+      <h3>Niveau sélectionné : {{ selectedLevel }}</h3>
+      <p>Calendrier scolaire pour l'année {{ currentYear }}-{{ currentYear + 1 }}</p>
+      <button class="back-btn" (click)="clearSelection()">
+        <i class="fas fa-arrow-left"></i>
+        Retour à la sélection
+      </button>
+    </div>
+  </div>
+</div> 

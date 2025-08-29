@@ -1,0 +1,125 @@
+<div class="statistiques-container">
+  <div class="header">
+    <h2>📊 Statistiques des Notes</h2>
+    <p *ngIf="eleveId">Statistiques détaillées pour l'élève {{ eleveId }}</p>
+    <p *ngIf="!eleveId">Statistiques globales de tous les élèves</p>
+    <button class="btn-refresh" (click)="rafraichir()" [disabled]="isLoading">
+      🔄 {{ isLoading ? 'Chargement...' : 'Rafraîchir' }}
+    </button>
+  </div>
+
+  <!-- Indicateurs principaux -->
+  <div *ngIf="stats" class="stats-cards">
+    <div class="stat-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-content">
+        <h3>Moyenne Générale</h3>
+        <div class="stat-value" [style.color]="getCouleurNote(stats.moyenne)">
+          {{ stats.moyenne }}%
+        </div>
+        <div class="stat-label">{{ getNiveauPerformance(stats.moyenne) }}</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-content">
+        <h3>Meilleure Note</h3>
+        <div class="stat-value" [style.color]="getCouleurNote(stats.noteMaximale)">
+          {{ stats.noteMaximale }}%
+        </div>
+        <div class="stat-label">{{ getIconePerformance(stats.noteMaximale) }} Excellent</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📝</div>
+      <div class="stat-content">
+        <h3>Total Notes</h3>
+        <div class="stat-value">{{ stats.totalNotes }}</div>
+        <div class="stat-label">Évaluations</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <h3>Note Minimale</h3>
+        <div class="stat-value" [style.color]="getCouleurNote(stats.noteMinimale)">
+          {{ stats.noteMinimale }}%
+        </div>
+        <div class="stat-label">{{ getIconePerformance(stats.noteMinimale) }} {{ getNiveauPerformance(stats.noteMinimale) }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progression par matière -->
+  <div *ngIf="progressionParMatiere.length > 0" class="chart-section">
+    <h3>📚 Progression par Matière</h3>
+    <div class="progression-chart">
+      <div *ngFor="let item of progressionParMatiere" class="progression-bar">
+        <div class="matiere-label">{{ item.matiere }}</div>
+        <div class="bar-container">
+          <div class="bar" [style.width.%]="item.progression" [style.background-color]="item.couleur">
+            <span class="bar-value">{{ item.progression }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes par type d'évaluation -->
+  <div *ngIf="notesParType.length > 0" class="chart-section">
+    <h3>📋 Performance par Type d'Évaluation</h3>
+    <div class="type-chart">
+      <div *ngFor="let item of notesParType" class="type-item">
+        <div class="type-header">
+          <span class="type-name">{{ item.type }}</span>
+          <span class="type-count">({{ item.nombre }} notes)</span>
+        </div>
+        <div class="type-bar">
+          <div class="type-progress" [style.width.%]="item.moyenne" [style.background-color]="item.couleur">
+            <span class="type-value">{{ item.moyenne }}%</span>
+          </div>
+        </div>
+        <div class="type-appreciation">{{ getAppreciation(item.moyenne) }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Évolution temporelle -->
+  <div *ngIf="evolutionTemporelle.length > 0" class="chart-section">
+    <h3>📅 Évolution Temporelle</h3>
+    <div class="evolution-chart">
+      <div class="chart-container">
+        <div *ngFor="let item of evolutionTemporelle; let i = index" class="evolution-point">
+          <div class="point" [style.background-color]="getCouleurPerformance(item.moyenne)">
+            <span class="point-value">{{ item.moyenne }}%</span>
+          </div>
+          <div class="point-label">{{ item.mois }}</div>
+          <div *ngIf="i < evolutionTemporelle.length - 1" class="line" [style.background-color]="getCouleurPerformance(item.moyenne)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="error" class="error-message">
+    <div class="error-icon">❌</div>
+    <div class="error-text">{{ error }}</div>
+    <button class="btn-retry" (click)="rafraichir()">🔄 Réessayer</button>
+  </div>
+
+  <!-- Message de chargement -->
+  <div *ngIf="isLoading && !error" class="loading-message">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Chargement des statistiques...</div>
+  </div>
+
+  <!-- Message si aucune donnée -->
+  <div *ngIf="!isLoading && !error && !stats" class="no-data">
+    <div class="no-data-icon">📭</div>
+    <div class="no-data-text">Aucune donnée disponible</div>
+    <div class="no-data-subtext">Commencez par ajouter des notes pour voir les statistiques</div>
+  </div>
+</div>

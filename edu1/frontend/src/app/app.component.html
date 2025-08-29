@@ -1,0 +1,98 @@
+<!-- Barre de navigation principale -->
+<nav class="navbar">
+  <div class="menu-toggle" (click)="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- Logo EduMaroc -->
+  <div class="navbar-logo">
+    <a (click)="navigateToHome()" class="logo-link">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">EduMaroc</span>
+    </a>
+  </div>
+
+  <div class="toggle-menu" *ngIf="isMenuVisible">
+    <ul>
+      <li><a (click)="navigateToHome()"><i class="fas fa-home"></i> Accueil</a></li>
+      <li><a (click)="navigateToMateriel()"><i class="fas fa-box"></i> Matériels</a></li>
+      <li><a (click)="navigateToSettings()"><i class="fas fa-cog"></i> Paramètres</a></li>
+      <li><a (click)="navigateToReferences()"><i class="fas fa-users"></i> Références</a></li>
+      <li><a><i class="fas fa-sign-out-alt"></i> Sortie</a></li>
+    </ul>
+  </div>
+
+  <ul class="nav-links">
+    <li><a (click)="navigateToHome()">Accueil</a></li>
+    <li><a (click)="navigateToEcole()">École ▾</a></li>
+    <li><a (click)="navigateToUtiles()">Utile ▾</a></li>
+    <li><a (click)="navigateToAPropos()">À propos de nous ▾</a></li>
+    <li><a (click)="navigateToSubscription()">Abonnements</a></li>
+  </ul>
+
+  <div style="margin-left:auto;display:flex;align-items:center;">
+    <app-header></app-header>
+  </div>
+</nav>
+
+<!-- Layout principal avec sidebar et contenu -->
+<div class="app-layout">
+  <!-- Sidebar fixe à gauche -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <span class="logo-icon">🎓</span>
+        <span class="logo-text">Menu</span>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li class="nav-item" (click)="navigateToCalendar()">
+          <div class="nav-link">
+            <i class="fas fa-calendar"></i>
+            <span>Calendrier</span>
+          </div>
+        </li>
+        <li class="nav-item" (click)="navigateToMateriel()">
+          <div class="nav-link">
+            <i class="fas fa-box"></i>
+            <span>Matériels</span>
+          </div>
+        </li>
+        <li class="nav-item" (click)="navigateToStats()">
+          <div class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <span>Statistiques</span>
+          </div>
+        </li>
+        <li class="nav-item" (click)="navigateToSettings()">
+          <div class="nav-link">
+            <i class="fas fa-cog"></i>
+            <span>Paramètres</span>
+          </div>
+        </li>
+        <li class="nav-item" (click)="navigateToReferences()">
+          <div class="nav-link">
+            <i class="fas fa-users"></i>
+            <span>Références</span>
+          </div>
+        </li>
+        <li class="nav-item" (click)="navigateToAPropos()">
+          <div class="nav-link">
+            <i class="fas fa-info-circle"></i>
+            <span>À propos</span>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Contenu principal à droite -->
+  <main class="main-content">
+    <!-- Zone de contenu dynamique -->
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
